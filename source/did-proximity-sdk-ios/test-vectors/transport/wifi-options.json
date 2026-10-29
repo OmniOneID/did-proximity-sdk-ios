@@ -1,0 +1,27 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "transport/wifi-options",
+  "kind": "encode",
+  "source": "self",
+  "note": "WifiOptions CBOR (8.2.2.3 Table 7). Key 3 (Supported Bands, bstr) is always included; key 0 (pass-phrase) never is (both sides derive it). Keys 1 and 2 only when known after NAN picks the channel. The values (Operating Class 81 = 2.4 GHz 20 MHz, Channel 6, Bands 0x02) are our example, not standard values. The Android encoder must produce the same bytes",
+  "input": {
+    "full": {
+      "operatingClass": 81,
+      "channelNumber": 6,
+      "supportedBands": "02"
+    },
+    "minimal": {
+      "supportedBands": "02"
+    }
+  },
+  "expect": {
+    "full": "a30118510206034102",
+    "minimal": "a1034102",
+    "decodedFull": {
+      "operatingClass": 81,
+      "channelNumber": 6,
+      "supportedBands": "02",
+      "passphrase": null
+    }
+  }
+}

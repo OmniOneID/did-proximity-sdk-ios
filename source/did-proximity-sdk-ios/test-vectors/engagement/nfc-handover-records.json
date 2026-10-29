@@ -1,0 +1,63 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "engagement/nfc-handover-records",
+  "kind": "encode",
+  "source": "self",
+  "note": "NDEF record bytes for NFC engagement (8.2.2.1 · 8.2.2.2 · 8.3.3.1.1.2, TNEP 1.0). The Handover Request enters the transcript exactly as the reader wrote it (9.1.5.1), so readers on both platforms must produce the same bytes. cr is random; fixed here. UUIDs are big-endian on input and little-endian inside the OOB. Service name urn:nfc:sn:handover, WT 24 (32 ms), N_wait 15, max NDEF 1024. Carrier record IDs are BLE `0` and NFC `nfc` — the standard only requires them to match the ac reference, but Multipaz accepts only these values",
+  "input": {
+    "deviceEngagement": "a20063312e30018201d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "nfc": {
+      "maxCommandDataLength": 255,
+      "maxResponseDataLength": 256
+    },
+    "serviceParameter": {
+      "waitTimeCode": 24,
+      "maxWaitExtensions": 15,
+      "maxMessageSize": 1024
+    },
+    "handoverRequest": {
+      "collisionResolution": "1234",
+      "carriers": [
+        {
+          "ble": {
+            "role": 2,
+            "serviceUUID": "000102030405060708090a0b0c0d0e0f"
+          }
+        },
+        {
+          "nfc": true
+        }
+      ]
+    },
+    "handoverSelectNfc": {
+      "carrier": "nfc"
+    },
+    "handoverSelectBlePeripheral": {
+      "carrier": "ble",
+      "role": 0,
+      "serviceUUID": "101112131415161718191a1b1c1d1e1f"
+    }
+  },
+  "expect": {
+    "serviceParameter": "d1021a5470101375726e3a6e66633a736e3a68616e646f76657200180f0400",
+    "serviceSelect": "d1021454731375726e3a6e66633a736e3a68616e646f766572",
+    "statusSuccess": "d10201546500",
+    "handoverRequest": "91021c48721591020263721234110204616301013000510206616301036e6663001a2015016170706c69636174696f6e2f766e642e626c7565746f6f74682e6c652e6f6f6230021c0211070f0e0d0c0b0a090807060504030201005c11010369736f2e6f72673a31383031333a6e66636e666301",
+    "handoverRequestOffer": {
+      "carriers": [
+        "ble.centralClient",
+        "ble.peripheralServer",
+        "nfc"
+      ],
+      "readerServiceUUID": "000102030405060708090a0b0c0d0e0f"
+    },
+    "handoverSelectNfc": "910211487315d1020b616301036e666301046d646f631c11080369736f2e6f72673a31383031333a6e66636e6663010201ff030201005c1e580469736f2e6f72673a31383031333a646576696365656e676167656d656e746d646f63a20063312e30018201d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "handoverSelectBlePeripheral": "91020f487315d10209616301013001046d646f631a2015016170706c69636174696f6e2f766e642e626c7565746f6f74682e6c652e6f6f6230021c0011071f1e1d1c1b1a191817161514131211105c1e580469736f2e6f72673a31383031333a646576696365656e676167656d656e746d646f63a20063312e30018201d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "handoverSelectBlePeripheralParsed": {
+      "carriers": [
+        "ble.peripheralServer"
+      ],
+      "bleServiceUUID": "101112131415161718191a1b1c1d1e1f"
+    }
+  }
+}

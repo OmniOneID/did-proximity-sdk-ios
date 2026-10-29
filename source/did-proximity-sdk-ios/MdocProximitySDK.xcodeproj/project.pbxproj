@@ -1,0 +1,807 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00250400F3DC2BA6D134BE2E /* NfcDataRetrievalTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB3F227C0B214E6C35CC819 /* NfcDataRetrievalTransport.swift */; };
+		01189F452BD3A01B4A92A249 /* EngagementPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9AB978CD8F7F6E8CE45B71 /* EngagementPayload.swift */; };
+		02C5E790326A95DDECA271DF /* CoseKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9661D663D4B24B45608DA3E /* CoseKey.swift */; };
+		02F239CAC8C309C6CC3FDA31 /* Type4TagReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4B921676AC819EF3DC4CF1 /* Type4TagReader.swift */; };
+		04F967FFA4BDD1F871123797 /* DIDIssuerKeyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181B90CDF20FD6CA6C91C97D /* DIDIssuerKeyResolver.swift */; };
+		074DC40B7F312AAAA5F2461B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058DF80739AD737E8CBAE3A /* Session.swift */; };
+		07B248750581B01AE4AA4CFC /* MdocAuthVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC9AC941CCCDD5627E6C16B /* MdocAuthVerifier.swift */; };
+		0D5FB0733F0BAFC1D14E33CA /* FirstReadyTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EFC0208650D420FEB47E96 /* FirstReadyTransport.swift */; };
+		1290C370057B43598674F869 /* Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = C519A692117A6858D63B91FF /* Values.swift */; };
+		18177E1B0AD850CE688BA64D /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D201D8A5BCFE3EA6327666 /* Aliases.swift */; };
+		1DCD0FF8406BB149549A0D67 /* Type4TagEmulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643FDF40E5F1252E7A115922 /* Type4TagEmulator.swift */; };
+		252CA3ECDFDD61538BF0E7C4 /* MdocDeviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA12DC2230D44ED42038ADC /* MdocDeviceSession.swift */; };
+		25B6FAE61ECADB4FCA88278F /* SessionTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D1E37666C33F3D86E09B8 /* SessionTranscript.swift */; };
+		26CB5E3451DD3132360625A8 /* LoopbackTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809B58B45602D0DBF6AFC4A0 /* LoopbackTransport.swift */; };
+		2D5977D2F7F6F7E88554D821 /* BleL2capTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01CE4C4FB6CD2C96D216BAC2 /* BleL2capTransport.swift */; };
+		2FF2AB57D8656E664ADA2AEF /* TransportEventRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9387814F7CA8915A0073F96 /* TransportEventRouter.swift */; };
+		31DB8FCC3599F29B782DEE37 /* TransportFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0FCFB153C0913CE1DEE97F /* TransportFactory.swift */; };
+		31F4E54787BF9E32568995E5 /* Timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5644472E4529D26A5B8A7B /* Timeout.swift */; };
+		3A1EADDE35D724F081F612C9 /* NfcTagSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F22AA89084975D581B4618 /* NfcTagSource.swift */; };
+		408C3FC2F39F28F92EFA5026 /* Apdu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECB4DEDBFA5B46F7FD302C /* Apdu.swift */; };
+		4F35E27D89659705574AC6F4 /* BleGattServerTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A287B91660C5852309A40BE6 /* BleGattServerTransport.swift */; };
+		5061EB159EC318AAF0FA6BF6 /* BleServiceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF734E173921716F12407F1 /* BleServiceProfile.swift */; };
+		53C7729EB78923BD9929B079 /* CborValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7541610176D736CD4018488A /* CborValue.swift */; };
+		589928C9C34B472FAF60F70A /* SessionCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9789FFF268B08A44459C337 /* SessionCodec.swift */; };
+		5B6AD79A2E397E8C99921255 /* MdocReaderSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547AF3B2340307CFC7C4F918 /* MdocReaderSession.swift */; };
+		5D8AC02A7DB22A148A06E284 /* Iso7816Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522FBD78F46A2BE2AFB9B799 /* Iso7816Channel.swift */; };
+		600CD1CD43767914EF8D0639 /* DigestChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282D8ED8DCEA1E38C1DC114 /* DigestChecker.swift */; };
+		638215343340F734A5226734 /* BleFraming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607EE8BAB462FCA0180E1E29 /* BleFraming.swift */; };
+		650F2E86115D66BD361B2956 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D56136FBD0FD39838E43D20 /* Request.swift */; };
+		666B027CB6938D2A58C1E9FF /* DeviceTransportFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3D591952AF821F304A2A4 /* DeviceTransportFactory.swift */; };
+		6BF23ED510B2299940A23D4A /* NfcCardTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642959E178C7EFBCCCB2C1EE /* NfcCardTransport.swift */; };
+		7096B89276EE13AB5B87C199 /* Engagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E893FB6E5CCFB1656EEF81 /* Engagement.swift */; };
+		729766900FF3FE07048A21C8 /* CborDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302DDEBA9F32B26DFF9FC5F /* CborDecoder.swift */; };
+		72F2E8AFF9907E2232A5CCD1 /* NfcCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AAF4441DC8E93031957DE1 /* NfcCapability.swift */; };
+		79944167A1851499E3885C3D /* CborEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6EA7B70C733C6FE33DB64B /* CborEncoder.swift */; };
+		7FBEA9BEDDF1595C718E73AE /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D25C6482820069F6494172B /* Transport.swift */; };
+		87825360B81DC7401B264B4E /* Probes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D23E4B0AE9DE87956568A /* Probes.swift */; };
+		8A012B21189E98AFE638BBF0 /* OpaqueCBOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450F5F7A199374498199B50D /* OpaqueCBOR.swift */; };
+		8B2169DDD411D849BAC10D4F /* EnvelopeChaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD781A8AFD3750A5C0A7B3F /* EnvelopeChaining.swift */; };
+		90BE1722EE22C0B75C3ED052 /* HandoverSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1898308A32FC9C2B408CE3 /* HandoverSelect.swift */; };
+		94136316DA4DBCC7DF72A952 /* MdocProximitySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2502E2EF911217764C5AAE6 /* MdocProximitySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		98DB7B137C0B42E4B6B124EE /* DeviceAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA455DFEC34FD8A3DC25F37 /* DeviceAuthentication.swift */; };
+		9D5E71947DD9018D461A8813 /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE2AB04705A3951E6F9DD8D /* SessionCipher.swift */; };
+		9EEEE5B5438D7786BDAFCA50 /* MdocProbeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70D0CC178F69F0BC0DD27DF /* MdocProbeApp.swift */; };
+		A2E0555CD94C01DE139C4738 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0548D84AB68E3BF1D3A7F7D8 /* Results.swift */; };
+		A5C9DBA3CBEFA8FF13F4EE04 /* TransportSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0CF9DABBC2BF9EE9811BA /* TransportSelection.swift */; };
+		A88A9942DA0318516F7EAD79 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F37C6EA00940AB4DAB511C7 /* Configuration.swift */; };
+		B1E0C4FB0B1E5EC0A0B1E5EC /* BleCapabilityProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E0C4FA0B1E5EC0A0B1E5EC /* BleCapabilityProbe.swift */; };
+		B2B3A13AE424D22A4D63715D /* ResponseCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5193B464C02DC81C3D2D11D /* ResponseCodec.swift */; };
+		B31A6E1178D913CD2F34FF61 /* ProbeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF1E29EEBA679C04EA5347A /* ProbeView.swift */; };
+		BACB83E707F34EA87CAF488C /* MdocProximitySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2502E2EF911217764C5AAE6 /* MdocProximitySDK.framework */; };
+		BD99DC3D4657CC9AE6256A89 /* Ndef.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0089E212D6B3ADD53529D2B /* Ndef.swift */; };
+		BDB7A764172CAD0A4B4C2DE7 /* NfcCardEmulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4259239C3E0BC6AA3D4104 /* NfcCardEmulation.swift */; };
+		BE1071989C5CD75F06848FA2 /* ReaderTransportFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1810C476D32E32787751782A /* ReaderTransportFactory.swift */; };
+		BFF2BDCC474CC106F1CCA49D /* RequestCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B2B768F857F469AB62754 /* RequestCodec.swift */; };
+		C0697222CF8734AE5E490B62 /* TrustEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D06C698830A1789E911731 /* TrustEvaluator.swift */; };
+		C0946AC051D873FA323BC8E0 /* CardSessionEmulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EACEA2D0B9D8626E7B1617 /* CardSessionEmulation.swift */; };
+		C990F3F86510A1975267C9AE /* MdocProximityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */; };
+		CF3C2BFA8A67BE826D315C61 /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FED82D20DE70565A1B126 /* Presets.swift */; };
+		D2CEEEB593A0DD01634AEFF8 /* QRViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C693A95316F966BE3C6F0A /* QRViews.swift */; };
+		D915EEA336CE84D7CF06C031 /* NodeAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965BBF4CD25ECB66237DD7DE /* NodeAccess.swift */; };
+		DF850B819F9416F2B6647C03 /* BleGattClientTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB9AFC07F9E28BEEAB0054A /* BleGattClientTransport.swift */; };
+		E1C8DD958613D9480DEFAA3A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BB076488552BE29292FF9F /* Response.swift */; };
+		E25E91BFE88FDBADC917BF89 /* EngagementCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7121C93D86FD2325FA5C166C /* EngagementCodec.swift */; };
+		E6FF36FFB44C8621C960260F /* SessionRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13AECB5EEC1E01A9F114467 /* SessionRegistry.swift */; };
+		E7CBDEECDD2ACF5CD1D7B98D /* Cose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AD1859A35C5987E49A0C34 /* Cose.swift */; };
+		EA3FF246486A58796AF0E94A /* IssuerDataAuthVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D1A51C7DD456AD490BE5F2 /* IssuerDataAuthVerifier.swift */; };
+		F9E65F424A01FCDE732AC22B /* WalletStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0EC907773B4767DD3AA0A0 /* WalletStub.swift */; };
+		FAAFD5AE8E76E6F7507FBD2C /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490C17B908A4A16EC97C0932 /* KeyDerivation.swift */; };
+		FC170E2AE3270B84E532FC34 /* ProbeLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC58585B8B72E55E160DE6A9 /* ProbeLog.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E978D23EBCE3A4883B022BB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 399ABC915F09553C7321713D;
+			remoteInfo = MdocProximitySDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6B461CD41EA51ABC93F86EC9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				94136316DA4DBCC7DF72A952 /* MdocProximitySDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		01CE4C4FB6CD2C96D216BAC2 /* BleL2capTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleL2capTransport.swift; sourceTree = "<group>"; };
+		04E893FB6E5CCFB1656EEF81 /* Engagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engagement.swift; sourceTree = "<group>"; };
+		0548D84AB68E3BF1D3A7F7D8 /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
+		0D56136FBD0FD39838E43D20 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		1810C476D32E32787751782A /* ReaderTransportFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderTransportFactory.swift; sourceTree = "<group>"; };
+		181B90CDF20FD6CA6C91C97D /* DIDIssuerKeyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDIssuerKeyResolver.swift; sourceTree = "<group>"; };
+		1DA455DFEC34FD8A3DC25F37 /* DeviceAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuthentication.swift; sourceTree = "<group>"; };
+		1F37C6EA00940AB4DAB511C7 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		1FA12DC2230D44ED42038ADC /* MdocDeviceSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocDeviceSession.swift; sourceTree = "<group>"; };
+		20AD1859A35C5987E49A0C34 /* Cose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cose.swift; sourceTree = "<group>"; };
+		3CB3F227C0B214E6C35CC819 /* NfcDataRetrievalTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcDataRetrievalTransport.swift; sourceTree = "<group>"; };
+		3D0EC907773B4767DD3AA0A0 /* WalletStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletStub.swift; sourceTree = "<group>"; };
+		3D1898308A32FC9C2B408CE3 /* HandoverSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoverSelect.swift; sourceTree = "<group>"; };
+		3D4B921676AC819EF3DC4CF1 /* Type4TagReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type4TagReader.swift; sourceTree = "<group>"; };
+		3FD781A8AFD3750A5C0A7B3F /* EnvelopeChaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeChaining.swift; sourceTree = "<group>"; };
+		42AAF4441DC8E93031957DE1 /* NfcCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcCapability.swift; sourceTree = "<group>"; };
+		450F5F7A199374498199B50D /* OpaqueCBOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueCBOR.swift; sourceTree = "<group>"; };
+		490C17B908A4A16EC97C0932 /* KeyDerivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
+		49250341B6F9D3BD03DCCEA9 /* MdocProbe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MdocProbe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B0FCFB153C0913CE1DEE97F /* TransportFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportFactory.swift; sourceTree = "<group>"; };
+		4D6EA7B70C733C6FE33DB64B /* CborEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CborEncoder.swift; sourceTree = "<group>"; };
+		4DF1E29EEBA679C04EA5347A /* ProbeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeView.swift; sourceTree = "<group>"; };
+		522FBD78F46A2BE2AFB9B799 /* Iso7816Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iso7816Channel.swift; sourceTree = "<group>"; };
+		547AF3B2340307CFC7C4F918 /* MdocReaderSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocReaderSession.swift; sourceTree = "<group>"; };
+		5D25C6482820069F6494172B /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		6052F6094835D0F1205C0C8B /* build_xcframework.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_xcframework.sh; sourceTree = "<group>"; };
+		607EE8BAB462FCA0180E1E29 /* BleFraming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleFraming.swift; sourceTree = "<group>"; };
+		61C693A95316F966BE3C6F0A /* QRViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViews.swift; sourceTree = "<group>"; };
+		6302DDEBA9F32B26DFF9FC5F /* CborDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CborDecoder.swift; sourceTree = "<group>"; };
+		642959E178C7EFBCCCB2C1EE /* NfcCardTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcCardTransport.swift; sourceTree = "<group>"; };
+		643FDF40E5F1252E7A115922 /* Type4TagEmulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type4TagEmulator.swift; sourceTree = "<group>"; };
+		6D5644472E4529D26A5B8A7B /* Timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeout.swift; sourceTree = "<group>"; };
+		7121C93D86FD2325FA5C166C /* EngagementCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementCodec.swift; sourceTree = "<group>"; };
+		71E3D591952AF821F304A2A4 /* DeviceTransportFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTransportFactory.swift; sourceTree = "<group>"; };
+		7282D8ED8DCEA1E38C1DC114 /* DigestChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestChecker.swift; sourceTree = "<group>"; };
+		7541610176D736CD4018488A /* CborValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CborValue.swift; sourceTree = "<group>"; };
+		756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocProximityError.swift; sourceTree = "<group>"; };
+		7D6FED82D20DE70565A1B126 /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
+		7F9AB978CD8F7F6E8CE45B71 /* EngagementPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementPayload.swift; sourceTree = "<group>"; };
+		809B58B45602D0DBF6AFC4A0 /* LoopbackTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopbackTransport.swift; sourceTree = "<group>"; };
+		9058DF80739AD737E8CBAE3A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		965BBF4CD25ECB66237DD7DE /* NodeAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeAccess.swift; sourceTree = "<group>"; };
+		A287B91660C5852309A40BE6 /* BleGattServerTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleGattServerTransport.swift; sourceTree = "<group>"; };
+		A7D06C698830A1789E911731 /* TrustEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustEvaluator.swift; sourceTree = "<group>"; };
+		A7F22AA89084975D581B4618 /* NfcTagSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcTagSource.swift; sourceTree = "<group>"; };
+		ABF734E173921716F12407F1 /* BleServiceProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleServiceProfile.swift; sourceTree = "<group>"; };
+		ADE2AB04705A3951E6F9DD8D /* SessionCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCipher.swift; sourceTree = "<group>"; };
+		B1E0C4FA0B1E5EC0A0B1E5EC /* BleCapabilityProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleCapabilityProbe.swift; sourceTree = "<group>"; };
+		C0089E212D6B3ADD53529D2B /* Ndef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ndef.swift; sourceTree = "<group>"; };
+		C2502E2EF911217764C5AAE6 /* MdocProximitySDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MdocProximitySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2D1A51C7DD456AD490BE5F2 /* IssuerDataAuthVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerDataAuthVerifier.swift; sourceTree = "<group>"; };
+		C3ECB4DEDBFA5B46F7FD302C /* Apdu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apdu.swift; sourceTree = "<group>"; };
+		C5193B464C02DC81C3D2D11D /* ResponseCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCodec.swift; sourceTree = "<group>"; };
+		C519A692117A6858D63B91FF /* Values.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Values.swift; sourceTree = "<group>"; };
+		C5EFC0208650D420FEB47E96 /* FirstReadyTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstReadyTransport.swift; sourceTree = "<group>"; };
+		C70D0CC178F69F0BC0DD27DF /* MdocProbeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocProbeApp.swift; sourceTree = "<group>"; };
+		C8F0CF9DABBC2BF9EE9811BA /* TransportSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportSelection.swift; sourceTree = "<group>"; };
+		C9789FFF268B08A44459C337 /* SessionCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCodec.swift; sourceTree = "<group>"; };
+		CBC9AC941CCCDD5627E6C16B /* MdocAuthVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocAuthVerifier.swift; sourceTree = "<group>"; };
+		CDC4C8D29244BA8AA202D7CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1EACEA2D0B9D8626E7B1617 /* CardSessionEmulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSessionEmulation.swift; sourceTree = "<group>"; };
+		D9387814F7CA8915A0073F96 /* TransportEventRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportEventRouter.swift; sourceTree = "<group>"; };
+		D9661D663D4B24B45608DA3E /* CoseKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKey.swift; sourceTree = "<group>"; };
+		D9D201D8A5BCFE3EA6327666 /* Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aliases.swift; sourceTree = "<group>"; };
+		DA4259239C3E0BC6AA3D4104 /* NfcCardEmulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcCardEmulation.swift; sourceTree = "<group>"; };
+		DBB9AFC07F9E28BEEAB0054A /* BleGattClientTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleGattClientTransport.swift; sourceTree = "<group>"; };
+		DC58585B8B72E55E160DE6A9 /* ProbeLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbeLog.swift; sourceTree = "<group>"; };
+		E06D1E37666C33F3D86E09B8 /* SessionTranscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTranscript.swift; sourceTree = "<group>"; };
+		E3BB076488552BE29292FF9F /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		E45D23E4B0AE9DE87956568A /* Probes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Probes.swift; sourceTree = "<group>"; };
+		E93B2B768F857F469AB62754 /* RequestCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCodec.swift; sourceTree = "<group>"; };
+		EB95BD610C746DD2A9BD34F5 /* MdocProbe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MdocProbe.entitlements; sourceTree = "<group>"; };
+		F13AECB5EEC1E01A9F114467 /* SessionRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRegistry.swift; sourceTree = "<group>"; };
+		FE39F65E2E0D04E61C150B84 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../../Package.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F87A878AEB94E823836E22B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BACB83E707F34EA87CAF488C /* MdocProximitySDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0C3FF742B154BC3C663D647 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00A2ADBC20B8227CBDB27A29 /* MdocBLE */ = {
+			isa = PBXGroup;
+			children = (
+				DBB9AFC07F9E28BEEAB0054A /* BleGattClientTransport.swift */,
+				A287B91660C5852309A40BE6 /* BleGattServerTransport.swift */,
+				01CE4C4FB6CD2C96D216BAC2 /* BleL2capTransport.swift */,
+				ABF734E173921716F12407F1 /* BleServiceProfile.swift */,
+				607EE8BAB462FCA0180E1E29 /* BleFraming.swift */,
+			);
+			path = MdocBLE;
+			sourceTree = "<group>";
+		};
+		1870F728368B5635D38E5836 /* MdocProbe */ = {
+			isa = PBXGroup;
+			children = (
+				D1EACEA2D0B9D8626E7B1617 /* CardSessionEmulation.swift */,
+				C70D0CC178F69F0BC0DD27DF /* MdocProbeApp.swift */,
+				DC58585B8B72E55E160DE6A9 /* ProbeLog.swift */,
+				4DF1E29EEBA679C04EA5347A /* ProbeView.swift */,
+				E45D23E4B0AE9DE87956568A /* Probes.swift */,
+				61C693A95316F966BE3C6F0A /* QRViews.swift */,
+				3D0EC907773B4767DD3AA0A0 /* WalletStub.swift */,
+				CDC4C8D29244BA8AA202D7CB /* Info.plist */,
+				EB95BD610C746DD2A9BD34F5 /* MdocProbe.entitlements */,
+			);
+			path = MdocProbe;
+			sourceTree = "<group>";
+		};
+		1FE809491040E59964F8CA89 /* Cbor */ = {
+			isa = PBXGroup;
+			children = (
+				6302DDEBA9F32B26DFF9FC5F /* CborDecoder.swift */,
+				4D6EA7B70C733C6FE33DB64B /* CborEncoder.swift */,
+				7541610176D736CD4018488A /* CborValue.swift */,
+				450F5F7A199374498199B50D /* OpaqueCBOR.swift */,
+			);
+			path = Cbor;
+			sourceTree = "<group>";
+		};
+		2B731CEFC6751AAE0EC69B98 = {
+			isa = PBXGroup;
+			children = (
+				420CFB359C2A33DC60BFB328 /* Sources */,
+				93C9D9E9124C3AF1036D083E /* Harness */,
+				FE39F65E2E0D04E61C150B84 /* Package.swift */,
+				6052F6094835D0F1205C0C8B /* build_xcframework.sh */,
+				86024CAD1E83101D97359D73 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3F5864E2CBEBEB8040182AF9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA4259239C3E0BC6AA3D4104 /* NfcCardEmulation.swift */,
+				D9D201D8A5BCFE3EA6327666 /* Aliases.swift */,
+				1F37C6EA00940AB4DAB511C7 /* Configuration.swift */,
+				42AAF4441DC8E93031957DE1 /* NfcCapability.swift */,
+				B1E0C4FA0B1E5EC0A0B1E5EC /* BleCapabilityProbe.swift */,
+				04E893FB6E5CCFB1656EEF81 /* Engagement.swift */,
+				7F9AB978CD8F7F6E8CE45B71 /* EngagementPayload.swift */,
+				7D6FED82D20DE70565A1B126 /* Presets.swift */,
+				0D56136FBD0FD39838E43D20 /* Request.swift */,
+				E3BB076488552BE29292FF9F /* Response.swift */,
+				9058DF80739AD737E8CBAE3A /* Session.swift */,
+				C519A692117A6858D63B91FF /* Values.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		420CFB359C2A33DC60BFB328 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BB6788A266BF59FD58E2B3B5 /* MdocProximityCore */,
+				A1B2C3000000000000000070 /* Transport */,
+				A1B2C30000000000000000E0 /* Session */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		641B942D238537F045972917 /* Codec */ = {
+			isa = PBXGroup;
+			children = (
+				7121C93D86FD2325FA5C166C /* EngagementCodec.swift */,
+				965BBF4CD25ECB66237DD7DE /* NodeAccess.swift */,
+				E93B2B768F857F469AB62754 /* RequestCodec.swift */,
+				C5193B464C02DC81C3D2D11D /* ResponseCodec.swift */,
+				C9789FFF268B08A44459C337 /* SessionCodec.swift */,
+			);
+			path = Codec;
+			sourceTree = "<group>";
+		};
+		65B5E0FB9EECE9766802CAC7 /* MdocNFC */ = {
+			isa = PBXGroup;
+			children = (
+				642959E178C7EFBCCCB2C1EE /* NfcCardTransport.swift */,
+				643FDF40E5F1252E7A115922 /* Type4TagEmulator.swift */,
+				3D1898308A32FC9C2B408CE3 /* HandoverSelect.swift */,
+				C3ECB4DEDBFA5B46F7FD302C /* Apdu.swift */,
+				3FD781A8AFD3750A5C0A7B3F /* EnvelopeChaining.swift */,
+				522FBD78F46A2BE2AFB9B799 /* Iso7816Channel.swift */,
+				C0089E212D6B3ADD53529D2B /* Ndef.swift */,
+				3CB3F227C0B214E6C35CC819 /* NfcDataRetrievalTransport.swift */,
+				3D4B921676AC819EF3DC4CF1 /* Type4TagReader.swift */,
+			);
+			path = MdocNFC;
+			sourceTree = "<group>";
+		};
+		86024CAD1E83101D97359D73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2502E2EF911217764C5AAE6 /* MdocProximitySDK.framework */,
+				49250341B6F9D3BD03DCCEA9 /* MdocProbe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8837C6DA1FD62275DF582844 /* MdocReader */ = {
+			isa = PBXGroup;
+			children = (
+				547AF3B2340307CFC7C4F918 /* MdocReaderSession.swift */,
+				A7F22AA89084975D581B4618 /* NfcTagSource.swift */,
+				1810C476D32E32787751782A /* ReaderTransportFactory.swift */,
+				AE78409FD7D39F83125A0D34 /* MdocTrust */,
+			);
+			path = MdocReader;
+			sourceTree = "<group>";
+		};
+		8D94D49E193832BD483A1E7B /* MdocDevice */ = {
+			isa = PBXGroup;
+			children = (
+				71E3D591952AF821F304A2A4 /* DeviceTransportFactory.swift */,
+				1FA12DC2230D44ED42038ADC /* MdocDeviceSession.swift */,
+			);
+			path = MdocDevice;
+			sourceTree = "<group>";
+		};
+		93C9D9E9124C3AF1036D083E /* Harness */ = {
+			isa = PBXGroup;
+			children = (
+				1870F728368B5635D38E5836 /* MdocProbe */,
+			);
+			path = Harness;
+			sourceTree = "<group>";
+		};
+		A0DF5062297DFA741A42E296 /* Wire */ = {
+			isa = PBXGroup;
+			children = (
+				C5EFC0208650D420FEB47E96 /* FirstReadyTransport.swift */,
+				809B58B45602D0DBF6AFC4A0 /* LoopbackTransport.swift */,
+				5D25C6482820069F6494172B /* Transport.swift */,
+				D9387814F7CA8915A0073F96 /* TransportEventRouter.swift */,
+				4B0FCFB153C0913CE1DEE97F /* TransportFactory.swift */,
+				C8F0CF9DABBC2BF9EE9811BA /* TransportSelection.swift */,
+			);
+			path = Wire;
+			sourceTree = "<group>";
+		};
+		A1B2C3000000000000000070 /* Transport */ = {
+			isa = PBXGroup;
+			children = (
+				00A2ADBC20B8227CBDB27A29 /* MdocBLE */,
+				65B5E0FB9EECE9766802CAC7 /* MdocNFC */,
+			);
+			path = Transport;
+			sourceTree = "<group>";
+		};
+		A1B2C30000000000000000E0 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				8D94D49E193832BD483A1E7B /* MdocDevice */,
+				8837C6DA1FD62275DF582844 /* MdocReader */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		AE78409FD7D39F83125A0D34 /* MdocTrust */ = {
+			isa = PBXGroup;
+			children = (
+				181B90CDF20FD6CA6C91C97D /* DIDIssuerKeyResolver.swift */,
+				A7D06C698830A1789E911731 /* TrustEvaluator.swift */,
+			);
+			path = MdocTrust;
+			sourceTree = "<group>";
+		};
+		B05562092E15B21A2C9916A3 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				490C17B908A4A16EC97C0932 /* KeyDerivation.swift */,
+				ADE2AB04705A3951E6F9DD8D /* SessionCipher.swift */,
+				F13AECB5EEC1E01A9F114467 /* SessionRegistry.swift */,
+				E06D1E37666C33F3D86E09B8 /* SessionTranscript.swift */,
+				6D5644472E4529D26A5B8A7B /* Timeout.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		B83DD622D6D32A0434078B17 /* Verify */ = {
+			isa = PBXGroup;
+			children = (
+				7282D8ED8DCEA1E38C1DC114 /* DigestChecker.swift */,
+				C2D1A51C7DD456AD490BE5F2 /* IssuerDataAuthVerifier.swift */,
+				CBC9AC941CCCDD5627E6C16B /* MdocAuthVerifier.swift */,
+				0548D84AB68E3BF1D3A7F7D8 /* Results.swift */,
+			);
+			path = Verify;
+			sourceTree = "<group>";
+		};
+		BB6788A266BF59FD58E2B3B5 /* MdocProximityCore */ = {
+			isa = PBXGroup;
+			children = (
+				756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */,
+				1FE809491040E59964F8CA89 /* Cbor */,
+				641B942D238537F045972917 /* Codec */,
+				FC990B38AE6EE895B3CF63D8 /* Cose */,
+				3F5864E2CBEBEB8040182AF9 /* Model */,
+				B05562092E15B21A2C9916A3 /* Session */,
+				A0DF5062297DFA741A42E296 /* Wire */,
+				B83DD622D6D32A0434078B17 /* Verify */,
+			);
+			path = MdocProximityCore;
+			sourceTree = "<group>";
+		};
+		FC990B38AE6EE895B3CF63D8 /* Cose */ = {
+			isa = PBXGroup;
+			children = (
+				20AD1859A35C5987E49A0C34 /* Cose.swift */,
+				D9661D663D4B24B45608DA3E /* CoseKey.swift */,
+				1DA455DFEC34FD8A3DC25F37 /* DeviceAuthentication.swift */,
+			);
+			path = Cose;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		399ABC915F09553C7321713D /* MdocProximitySDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9FD359BBC63570A2F73FC4B8 /* Build configuration list for PBXNativeTarget "MdocProximitySDK" */;
+			buildPhases = (
+				A192020F08922A6F836A3B6E /* Sources */,
+				F0C3FF742B154BC3C663D647 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MdocProximitySDK;
+			productName = MdocProximitySDK;
+			productReference = C2502E2EF911217764C5AAE6 /* MdocProximitySDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F01C2E624E08A72BC055B46F /* MdocProbe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2EF0BFE4C820F767E4303FC /* Build configuration list for PBXNativeTarget "MdocProbe" */;
+			buildPhases = (
+				6B366E3A6159DC0A46CE6169 /* Sources */,
+				0F87A878AEB94E823836E22B /* Frameworks */,
+				6B461CD41EA51ABC93F86EC9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AFE5BD4954BB862321B2CAA0 /* PBXTargetDependency */,
+			);
+			name = MdocProbe;
+			productName = MdocProbe;
+			productReference = 49250341B6F9D3BD03DCCEA9 /* MdocProbe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1600;
+				ORGANIZATIONNAME = OmniOne;
+				TargetAttributes = {
+					399ABC915F09553C7321713D = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					F01C2E624E08A72BC055B46F = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 554413E5B571899B8DE64F47 /* Build configuration list for PBXProject "MdocProximitySDK" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2B731CEFC6751AAE0EC69B98;
+			productRefGroup = 86024CAD1E83101D97359D73 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				399ABC915F09553C7321713D /* MdocProximitySDK */,
+				F01C2E624E08A72BC055B46F /* MdocProbe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6B366E3A6159DC0A46CE6169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0946AC051D873FA323BC8E0 /* CardSessionEmulation.swift in Sources */,
+				9EEEE5B5438D7786BDAFCA50 /* MdocProbeApp.swift in Sources */,
+				FC170E2AE3270B84E532FC34 /* ProbeLog.swift in Sources */,
+				B31A6E1178D913CD2F34FF61 /* ProbeView.swift in Sources */,
+				87825360B81DC7401B264B4E /* Probes.swift in Sources */,
+				D2CEEEB593A0DD01634AEFF8 /* QRViews.swift in Sources */,
+				F9E65F424A01FCDE732AC22B /* WalletStub.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A192020F08922A6F836A3B6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BF23ED510B2299940A23D4A /* NfcCardTransport.swift in Sources */,
+				1DCD0FF8406BB149549A0D67 /* Type4TagEmulator.swift in Sources */,
+				90BE1722EE22C0B75C3ED052 /* HandoverSelect.swift in Sources */,
+				BDB7A764172CAD0A4B4C2DE7 /* NfcCardEmulation.swift in Sources */,
+				0D5FB0733F0BAFC1D14E33CA /* FirstReadyTransport.swift in Sources */,
+				DF850B819F9416F2B6647C03 /* BleGattClientTransport.swift in Sources */,
+				4F35E27D89659705574AC6F4 /* BleGattServerTransport.swift in Sources */,
+				2D5977D2F7F6F7E88554D821 /* BleL2capTransport.swift in Sources */,
+				5061EB159EC318AAF0FA6BF6 /* BleServiceProfile.swift in Sources */,
+				666B027CB6938D2A58C1E9FF /* DeviceTransportFactory.swift in Sources */,
+				252CA3ECDFDD61538BF0E7C4 /* MdocDeviceSession.swift in Sources */,
+				408C3FC2F39F28F92EFA5026 /* Apdu.swift in Sources */,
+				8B2169DDD411D849BAC10D4F /* EnvelopeChaining.swift in Sources */,
+				5D8AC02A7DB22A148A06E284 /* Iso7816Channel.swift in Sources */,
+				BD99DC3D4657CC9AE6256A89 /* Ndef.swift in Sources */,
+				72F2E8AFF9907E2232A5CCD1 /* NfcCapability.swift in Sources */,
+				00250400F3DC2BA6D134BE2E /* NfcDataRetrievalTransport.swift in Sources */,
+				02F239CAC8C309C6CC3FDA31 /* Type4TagReader.swift in Sources */,
+				729766900FF3FE07048A21C8 /* CborDecoder.swift in Sources */,
+				79944167A1851499E3885C3D /* CborEncoder.swift in Sources */,
+				53C7729EB78923BD9929B079 /* CborValue.swift in Sources */,
+				8A012B21189E98AFE638BBF0 /* OpaqueCBOR.swift in Sources */,
+				E25E91BFE88FDBADC917BF89 /* EngagementCodec.swift in Sources */,
+				D915EEA336CE84D7CF06C031 /* NodeAccess.swift in Sources */,
+				BFF2BDCC474CC106F1CCA49D /* RequestCodec.swift in Sources */,
+				B2B3A13AE424D22A4D63715D /* ResponseCodec.swift in Sources */,
+				589928C9C34B472FAF60F70A /* SessionCodec.swift in Sources */,
+				E7CBDEECDD2ACF5CD1D7B98D /* Cose.swift in Sources */,
+				02C5E790326A95DDECA271DF /* CoseKey.swift in Sources */,
+				98DB7B137C0B42E4B6B124EE /* DeviceAuthentication.swift in Sources */,
+				C990F3F86510A1975267C9AE /* MdocProximityError.swift in Sources */,
+				18177E1B0AD850CE688BA64D /* Aliases.swift in Sources */,
+				A88A9942DA0318516F7EAD79 /* Configuration.swift in Sources */,
+				B1E0C4FB0B1E5EC0A0B1E5EC /* BleCapabilityProbe.swift in Sources */,
+				7096B89276EE13AB5B87C199 /* Engagement.swift in Sources */,
+				01189F452BD3A01B4A92A249 /* EngagementPayload.swift in Sources */,
+				CF3C2BFA8A67BE826D315C61 /* Presets.swift in Sources */,
+				650F2E86115D66BD361B2956 /* Request.swift in Sources */,
+				E1C8DD958613D9480DEFAA3A /* Response.swift in Sources */,
+				074DC40B7F312AAAA5F2461B /* Session.swift in Sources */,
+				1290C370057B43598674F869 /* Values.swift in Sources */,
+				FAAFD5AE8E76E6F7507FBD2C /* KeyDerivation.swift in Sources */,
+				9D5E71947DD9018D461A8813 /* SessionCipher.swift in Sources */,
+				E6FF36FFB44C8621C960260F /* SessionRegistry.swift in Sources */,
+				25B6FAE61ECADB4FCA88278F /* SessionTranscript.swift in Sources */,
+				31F4E54787BF9E32568995E5 /* Timeout.swift in Sources */,
+				638215343340F734A5226734 /* BleFraming.swift in Sources */,
+				26CB5E3451DD3132360625A8 /* LoopbackTransport.swift in Sources */,
+				7FBEA9BEDDF1595C718E73AE /* Transport.swift in Sources */,
+				2FF2AB57D8656E664ADA2AEF /* TransportEventRouter.swift in Sources */,
+				31DB8FCC3599F29B782DEE37 /* TransportFactory.swift in Sources */,
+				A5C9DBA3CBEFA8FF13F4EE04 /* TransportSelection.swift in Sources */,
+				600CD1CD43767914EF8D0639 /* DigestChecker.swift in Sources */,
+				EA3FF246486A58796AF0E94A /* IssuerDataAuthVerifier.swift in Sources */,
+				07B248750581B01AE4AA4CFC /* MdocAuthVerifier.swift in Sources */,
+				A2E0555CD94C01DE139C4738 /* Results.swift in Sources */,
+				5B6AD79A2E397E8C99921255 /* MdocReaderSession.swift in Sources */,
+				3A1EADDE35D724F081F612C9 /* NfcTagSource.swift in Sources */,
+				BE1071989C5CD75F06848FA2 /* ReaderTransportFactory.swift in Sources */,
+				04F967FFA4BDD1F871123797 /* DIDIssuerKeyResolver.swift in Sources */,
+				C0697222CF8734AE5E490B62 /* TrustEvaluator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AFE5BD4954BB862321B2CAA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 399ABC915F09553C7321713D /* MdocProximitySDK */;
+			targetProxy = E978D23EBCE3A4883B022BB6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0497935BE72B4111B23165FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.omnione.did.proximity.sdk;
+				PRODUCT_NAME = MdocProximitySDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		06125DCB1954C4F7EEE69894 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		699FCDBED06EC64C8A6B513F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Harness/MdocProbe/MdocProbe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZZD25P96B;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Harness/MdocProbe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.omnione.did.sdk.mdoc.proximity.probe;
+				PRODUCT_NAME = MdocProbe;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7CF167BB9A95600EBB38E99A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.omnione.did.proximity.sdk;
+				PRODUCT_NAME = MdocProximitySDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		AACF5BDB2BC481EB947517D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C0DD1C3E4BFC124D878FE440 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Harness/MdocProbe/MdocProbe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GZZD25P96B;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Harness/MdocProbe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.omnione.did.sdk.mdoc.proximity.probe;
+				PRODUCT_NAME = MdocProbe;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		554413E5B571899B8DE64F47 /* Build configuration list for PBXProject "MdocProximitySDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06125DCB1954C4F7EEE69894 /* Debug */,
+				AACF5BDB2BC481EB947517D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9FD359BBC63570A2F73FC4B8 /* Build configuration list for PBXNativeTarget "MdocProximitySDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CF167BB9A95600EBB38E99A /* Debug */,
+				0497935BE72B4111B23165FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2EF0BFE4C820F767E4303FC /* Build configuration list for PBXNativeTarget "MdocProbe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0DD1C3E4BFC124D878FE440 /* Debug */,
+				699FCDBED06EC64C8A6B513F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}

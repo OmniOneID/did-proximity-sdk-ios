@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "sessionTranscriptBytes": "d81858ad83d8185858a20063312e30018201d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4fd818584ba401022001215820505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f225820707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8ff6",
+    "sha256OfSessionTranscriptBytes": "919232350b8073cfb2e0db4417e23e5940d306840f1600173e4d26fa280ff8ab"
+  },
+  "id": "session/transcript-from-engagement-qr",
+  "input": {
+    "deviceEngagement": "a20063312e30018201d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "eReaderKeyBytes": "d818584ba401022001215820505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f225820707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f",
+    "handover": "QRHandover(null)"
+  },
+  "kind": "encode",
+  "note": "The input is the bare DeviceEngagement decoded from the QR code (8.2.2.3). It must be wrapped as #6.24(bstr) when it enters the transcript (9.1.5.1) — session/transcript-qr takes an already-wrapped input and pins only the builder contract, so it missed this path. The expected value equals session/transcript-qr. Found while cross-checking against Multipaz (2026-09-14)",
+  "schema": "mdoc-test-vector/1",
+  "source": "self"
+}

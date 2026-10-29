@@ -1,0 +1,29 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "transport/l2cap-length-header",
+  "kind": "encode",
+  "source": "self",
+  "note": "big-endian unsigned 32-bit. The standard specifies neither endianness nor signedness, so this vector is the reference for our decision",
+  "input": {
+    "lengths": [
+      1,
+      255,
+      256,
+      65535,
+      65536,
+      500,
+      4294967295
+    ]
+  },
+  "expect": {
+    "headers": {
+      "1": "00000001",
+      "255": "000000ff",
+      "256": "00000100",
+      "65535": "0000ffff",
+      "65536": "00010000",
+      "500": "000001f4",
+      "4294967295": "ffffffff"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "negative/counter-rewind",
+  "kind": "negative",
+  "source": "self",
+  "note": "If the received counter is lower than expected, the session is discarded immediately",
+  "input": {
+    "expectedCounter": 3,
+    "receivedCounter": 2
+  },
+  "expect": {
+    "error": "counterMismatch"
+  }
+}

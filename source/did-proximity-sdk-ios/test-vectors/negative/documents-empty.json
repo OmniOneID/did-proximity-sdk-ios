@@ -1,0 +1,15 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "negative/documents-empty",
+  "kind": "decode",
+  "source": "self",
+  "note": "The CDDL is [+Document], so this is a violation, but it is accepted as zero documents — the only entry on the leniency exception list",
+  "input": {
+    "bytes": "a366737461747573006776657273696f6e63312e3069646f63756d656e747380"
+  },
+  "expect": {
+    "documentCount": 0,
+    "status": 0,
+    "error": null
+  }
+}

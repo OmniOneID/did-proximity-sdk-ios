@@ -1,0 +1,19 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "derivation/edevicekey-derivations",
+  "kind": "derive",
+  "source": "self",
+  "note": "EDeviceKeyBytes → BLEIdent (HKDF-SHA256, info \"BLEIdent\", L=16) · NANService (L=16, uppercase base16) · NANPassphrase (L=32, base64url without padding): the three derivations pinned to fixed values. The reference an Android implementation checks itself against. Swapping the three info labels or the three lengths is the failure this axis catches",
+  "input": {
+    "eDeviceKeyBytes": "d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "hash": "SHA-256",
+    "salt": "none"
+  },
+  "expect": {
+    "bleIdent": "eb91b4d0a6fdafc0113136807a1118ff",
+    "nanServiceName": "7719fd811582276cb3c2b293b58b83e3",
+    "nanServiceNameBase16": "7719FD811582276CB3C2B293B58B83E3",
+    "nanPassphrase": "bd585c4c4a722bfe70c7b085206c7d2147c06cbb9a2e91fdec8eb2f02abc52ff",
+    "nanPassphraseBase64url": "vVhcTEpyK_5wx7CFIGx9IUfAbLuaLpH97I6y8Cq8Uv8"
+  }
+}

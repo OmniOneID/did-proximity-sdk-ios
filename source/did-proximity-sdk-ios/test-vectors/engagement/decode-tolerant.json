@@ -1,0 +1,21 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "engagement/decode-tolerant",
+  "kind": "decode",
+  "source": "self",
+  "note": "Lenient decoding test. An indefinite-length map, a non-shortest integer (0x1801), unknown integer keys 5 and 7, and version \"1.1\" must all be accepted. The original bytes are preserved for the SessionTranscript",
+  "input": {
+    "bytes": "bf0063312e3101821801d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f0544deadbeef0766667574757265ff"
+  },
+  "expect": {
+    "version": "1.1",
+    "cipherSuiteIdentifier": 1,
+    "eDeviceKeyBytes": "d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+    "ignoredIntKeys": [
+      5,
+      7
+    ],
+    "preservedBytes": "bf0063312e3101821801d818584ba401022001215820101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f225820303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f0544deadbeef0766667574757265ff",
+    "error": null
+  }
+}

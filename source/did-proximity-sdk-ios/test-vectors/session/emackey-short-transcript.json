@@ -1,0 +1,16 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "session/emackey-short-transcript",
+  "kind": "derive",
+  "source": "self",
+  "note": "The salt is **SHA-256(SessionTranscriptBytes)**, not the raw transcript. Real transcripts always exceed 64 bytes, so HMAC first hashes the key with SHA-256 and both definitions yield the same value — which is why real data never exposes this axis. This vector's transcript is 13 bytes, so the two diverge. An implementation that uses the raw transcript as the salt outputs 4d47489aaaaf084496056644dd19d387143373c74d01b05542b228d579a0af7c (an axis found while cross-checking against a wallet session).",
+  "input": {
+    "sessionTranscriptBytes": "d8184a83d81841a0d81841a0f6",
+    "zabPrime": "1b7ec8f83e896ebcf2d1266df5d3f7af1e5147084120e9ce59b51f145889fa41",
+    "hash": "SHA-256",
+    "salt": "SHA-256(sessionTranscriptBytes)"
+  },
+  "expect": {
+    "eMacKey": "ee23f57f7d7f5a03a2d6af7fe56b90c072863d89ddd96cc75aebefa30bd64b4a"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "expect" : {
+    "documentCount" : 0,
+    "documentErrors" : {
+      "org.iso.18013.5.1.mDL" : 0
+    },
+    "error" : null,
+    "status" : 0,
+    "version" : "1.0"
+  },
+  "id" : "response/zero-documents",
+  "input" : {
+    "bytes" : "a366737461747573006776657273696f6e63312e306e646f63756d656e744572726f727381a1756f72672e69736f2e31383031332e352e312e6d444c00"
+  },
+  "kind" : "decode",
+  "note" : "Zero documents are expressed only by omitting the documents key — an empty array violates the CDDL. status is 0 and the session completes normally",
+  "schema" : "mdoc-test-vector/1",
+  "source" : "self"
+}

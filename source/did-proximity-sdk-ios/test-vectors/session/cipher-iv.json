@@ -1,0 +1,26 @@
+{
+  "schema": "mdoc-test-vector/1",
+  "id": "session/cipher-iv",
+  "kind": "derive",
+  "source": "self",
+  "note": "identifier(8) || counter(4, big-endian). The counter starts at 1",
+  "input": {
+    "counters": [
+      1,
+      2,
+      3
+    ]
+  },
+  "expect": {
+    "mdocReader": [
+      "000000000000000000000001",
+      "000000000000000000000002",
+      "000000000000000000000003"
+    ],
+    "mdoc": [
+      "000000000000000100000001",
+      "000000000000000100000002",
+      "000000000000000100000003"
+    ]
+  }
+}
