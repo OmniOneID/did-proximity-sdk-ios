@@ -36,6 +36,8 @@ did-proximity-sdk-ios
 └── source
     ├── did-proximity-sdk-ios
     │   ├── MdocProximitySDK.xcodeproj
+    │   ├── README.md
+    │   ├── README_ko.md
     │   ├── build_xcframework.sh
     │   ├── verify_spm_products.sh
     │   ├── verify_xcframework.sh
@@ -71,12 +73,13 @@ did-proximity-sdk-ios
 | ┖ Tests                 | 단위 테스트                             |
 | ┖ test-vectors          | 바이트 단위 테스트 벡터 (VectorGen 으로 생성)   |
 | ┖ Harness               | 실기기 테스트 앱 (배포 대상 아님)             |
-| ┖ release               | 빌드된 XCFramework                     |
-| docs                    | 문서                                  |
-| ┖ api                   | API 가이드 문서                         |
+| ┖ README.md             | SDK 가이드 (빌드, 적용, SPM, 앱 설정, API 링크) |
 | ┖ build_xcframework.sh  | XCFramework 빌드 스크립트                |
 | ┖ verify_spm_products.sh | SPM product 를 `import` 한 줄로 쓸 수 있는지 확인 |
 | ┖ verify_xcframework.sh | XCFramework 가 공개 API 만 노출하는지 확인   |
+| ┖ release               | 빌드된 XCFramework                     |
+| docs                    | 문서                                  |
+| ┖ api                   | API 가이드 문서                         |
 | README.md               | 프로젝트의 전체적인 개요 설명               |
 | CLA.md                  | Contributor License Agreement       |
 | CHANGELOG.md            | 프로젝트 버전별 변경사항                   |
@@ -108,61 +111,17 @@ did-proximity-sdk-ios
 2. 앱 프로젝트 의존성에 프레임워크를 추가합니다.
 3. 프레임워크를 `Embed & Sign`으로 설정합니다.
 
-XCFramework 는 두 역할을 모두 담은 모듈 하나입니다:
-
-```swift
-import MdocProximitySDK
-```
-
-### 빌드
-`source/did-proximity-sdk-ios` 에서 스크립트를 실행합니다. XCFramework 는 `source/release/did-proximity-sdk-ios-<버전>/` 에 생성됩니다.
-
-```bash
-$ cd source/did-proximity-sdk-ios
-$ ./build_xcframework.sh
-```
-
 ## Swift Package 적용 방법
 
-패키지는 역할마다 product 를 하나씩 제공합니다. 앱은 자기 역할의 product 하나만 추가하면 됩니다. 공용 모듈은 의존성으로 함께 들어오고, `import` 도 한 줄이면 됩니다.
-
-| Product      | 앱                            | Import              |
-|--------------|------------------------------|---------------------|
-| `MdocDevice` | mdoc 앱 (소지자)               | `import MdocDevice` |
-| `MdocReader` | mdoc reader 앱 (검증자)        | `import MdocReader` |
-
-1. **Xcode → Project → Package Dependencies** 를 엽니다.
-2. **“+”** 버튼을 누릅니다.
-3. SDK 의 Swift Package URL 을 입력합니다:
-    ```text
-    https://github.com/OmniOneID/did-proximity-sdk-ios.git
-    ```
-4. **Version ≥ 1.0.0** 을 선택합니다.
-5. 앱 역할에 맞는 product 를 타깃에 추가합니다.
+적용방법은 [여기](source/did-proximity-sdk-ios/README_ko.md)에서 확인할 수 있습니다.
 
 ## 앱 설정
 
-| 키 | 역할 | 필요한 경우 |
-|-----|------|----------|
-| `NSBluetoothAlwaysUsageDescription` (Info.plist) | mdoc, mdoc reader | BLE |
-| `NSCameraUsageDescription` (Info.plist) | mdoc reader | QR 스캔 (앱이 수행) |
-| `NFCReaderUsageDescription` (Info.plist) | mdoc reader | NFC |
-| `com.apple.developer.nfc.readersession.iso7816.select-identifiers` (Info.plist) | mdoc reader | NFC — `D2760000850101` 먼저, 그다음 `A0000002480400` |
-| `com.apple.developer.nfc.readersession.formats = [TAG]` (Entitlements) | mdoc reader | NFC |
-
-`select-identifiers` 는 순서가 중요합니다. `A0000002480400` 이 앞에 오면 리더가 engagement 를 건너뜁니다. 항목이 없거나 순서가 뒤집혀 있으면 `MdocCapabilities.current()` 가 `configurationRequired(.addEntitlement(...))` 로 알려 줍니다.
-
-mdoc 측 NFC engagement(iOS 카드 에뮬레이션)에 필요한 엔타이틀먼트는 이 SDK 가 가질 수 없으므로 앱이 주입합니다. [MdocDevice API](docs/api/public/MdocDeviceAPI_ko.md) 를 참조하세요.
+앱 설정은 [여기](source/did-proximity-sdk-ios/README_ko.md)에서 확인할 수 있습니다.
 
 ## API 참조
 
-| 구분                | API 문서 링크                                                  |
-|--------------------|---------------------------------------------------------------|
-| MdocDevice         | [mdoc API](docs/api/public/MdocDeviceAPI_ko.md)               |
-| MdocReader         | [mdoc reader API](docs/api/public/MdocReaderAPI_ko.md)        |
-| MdocTrust          | [신뢰 API](docs/api/public/MdocTrust_ko.md)                    |
-| DataModel          | [데이터 모델](docs/api/public/DataModel_ko.md)                  |
-| MdocProximityError | [오류](docs/api/public/MdocProximityError.md)                  |
+API 참조는 [여기](source/did-proximity-sdk-ios/README_ko.md)에서 확인할 수 있습니다.
 
 
 ## 수정내역

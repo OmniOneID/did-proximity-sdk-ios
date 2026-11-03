@@ -4,3 +4,6 @@ output/
 Package.resolved
 .build/
 .swiftpm/
+
+# Local-only files
+/excluded/
