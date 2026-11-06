@@ -91,6 +91,10 @@ import Foundation
     // MARK: -
 
     private func handle(_ event: TransportEvent) {
+        // Progress fires per BLE part — only the completed transfer is worth a line
+        if case .progress(let sent, let total) = event, sent < total {} else {
+            MdocLog.log(event.logLevel, .transport, "event: \(event.logDescription)")
+        }
         switch event {
         case .message(let d): deliver(d)
         case .ready: resolveReady(.success(()))

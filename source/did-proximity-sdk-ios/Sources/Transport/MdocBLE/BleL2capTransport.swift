@@ -234,6 +234,7 @@ final class L2capChannelPipe: NSObject, StreamDelegate {
         }
         pipe.onClosed = { [weak self] in self?.emit.yield(.peerClosed(.remote)) }
         self.pipe = pipe
+        MdocLog.info(.ble, "L2CAP: channel opened — link ready")
         emit.yield(.ready)
     }
 
@@ -257,6 +258,7 @@ final class L2capChannelPipe: NSObject, StreamDelegate {
 
     func downgrade(reason: String) {
         guard fallback == nil, !isClosing, let config else { return }
+        MdocLog.warning(.ble, "L2CAP: falling back to GATT (\(reason))")
         let transport = makeFallback()
         fallback = transport
         emit.yield(.downgradedToGatt(reason: reason))
@@ -286,6 +288,7 @@ final class L2capChannelPipe: NSObject, StreamDelegate {
 
     public override func open(_ config: TransportConfig) async throws {
         try await super.open(config)
+        MdocLog.info(.ble, "L2CAP central: opening (service \(profile.serviceUUID), PSM \(announcedPSM.map { "\($0)" } ?? "from GATT"))")
         central = CBCentralManager(delegate: self, queue: nil,
                                    options: [CBCentralManagerOptionShowPowerAlertKey: false])
     }
@@ -303,6 +306,7 @@ final class L2capChannelPipe: NSObject, StreamDelegate {
 extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelegate {
 
     public func centralManagerDidUpdateState(_ manager: CBCentralManager) {
+        MdocLog.info(.ble, "L2CAP central: Bluetooth state \(manager.state.logName)")
         switch manager.state {
         case .poweredOn: manager.scanForPeripherals(withServices: [profile.serviceUUID])
         case .poweredOff: emit.yield(.failed(.configurationRequired(action: .enableBluetooth)))
@@ -314,6 +318,7 @@ extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelega
 
     public func centralManager(_ manager: CBCentralManager, didDiscover p: CBPeripheral,
                                advertisementData: [String: Any], rssi RSSI: NSNumber) {
+        MdocLog.info(.ble, "L2CAP central: peripheral discovered (RSSI \(RSSI)) — connecting")
         manager.stopScan()
         peer = p
         p.delegate = self
@@ -321,6 +326,7 @@ extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelega
     }
 
     public func centralManager(_ manager: CBCentralManager, didConnect p: CBPeripheral) {
+        MdocLog.info(.ble, "L2CAP central: connected")
         if let psm = announcedPSM, expectedIdent == nil {
             openChannel(p, psm: psm)
         } else {
@@ -335,6 +341,7 @@ extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelega
     public func centralManager(_ manager: CBCentralManager, didDisconnectPeripheral p: CBPeripheral,
                                error: Error?) {
         guard p === peer, !hasDowngraded else { return }
+        MdocLog.info(.ble, "L2CAP central: disconnected\(error.map { " (\($0.localizedDescription))" } ?? "")")
         emit.yield(.peerClosed(.remote))
     }
 
@@ -368,6 +375,7 @@ extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelega
     public func peripheral(_ p: CBPeripheral, didUpdateValueFor c: CBCharacteristic, error: Error?) {
         if c.uuid == profile.ident {
             guard let expected = expectedIdent, c.value == expected else {
+                MdocLog.warning(.ble, "L2CAP central: Ident mismatch — disconnecting and scanning again")
                 central?.cancelPeripheralConnection(p)
                 peer = nil
                 central?.scanForPeripherals(withServices: [profile.serviceUUID])
@@ -380,16 +388,19 @@ extension BleL2capOpeningTransport: CBCentralManagerDelegate, CBPeripheralDelega
         guard let value = c.value, let psm = L2capPsmCodec.decode(value) else {
             return downgrade(reason: "bad PSM value")
         }
+        MdocLog.info(.ble, "L2CAP central: opening channel on PSM \(psm)")
         p.openL2CAPChannel(psm)
     }
 
     private func openChannel(_ p: CBPeripheral, psm: UInt64) {
         guard let psm16 = CBL2CAPPSM(exactly: psm) else { return downgrade(reason: "bad PSM value") }
+        MdocLog.info(.ble, "L2CAP central: opening channel on PSM \(psm16)")
         p.openL2CAPChannel(psm16)
     }
 
     public func peripheral(_ p: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
         guard let channel, error == nil else {
+            if let error { MdocLog.warning(.ble, "L2CAP central: channel open error: \(error.localizedDescription)") }
             return downgrade(reason: "channel open failed")
         }
         attach(channel)

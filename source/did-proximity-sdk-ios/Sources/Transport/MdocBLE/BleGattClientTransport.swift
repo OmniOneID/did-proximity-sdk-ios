@@ -53,6 +53,7 @@ import CoreBluetooth
     }
 
     public func open(_ config: TransportConfig) async throws {
+        MdocLog.info(.ble, "GATT central: opening (service \(profile.serviceUUID))")
         central = CBCentralManager(delegate: self, queue: nil,
                                    options: [CBCentralManagerOptionShowPowerAlertKey: false])
     }
@@ -61,6 +62,7 @@ import CoreBluetooth
         guard let peer, let c2s else { throw MdocProximityError.peerDisconnected }
         let mtu = peer.maximumWriteValueLength(for: .withoutResponse)
         let parts = try BleFraming.split(message, mtu: mtu + 3)
+        MdocLog.debug(.ble, "GATT central: sending \(message.count)B in \(parts.count) part(s), write length \(mtu)")
         var sent = 0
         for part in parts {
             while !peer.canSendWriteWithoutResponse {
@@ -152,6 +154,7 @@ import CoreBluetooth
     }
 
     private func rejectAndRescan(_ p: CBPeripheral) {
+        MdocLog.warning(.ble, "GATT central: Ident mismatch — disconnecting and scanning again")
         central?.cancelPeripheralConnection(p)
         peer = nil
         central?.scanForPeripherals(withServices: [profile.serviceUUID])
@@ -161,6 +164,7 @@ import CoreBluetooth
 extension BleGattClientTransport: CBCentralManagerDelegate, CBPeripheralDelegate {
 
     public func centralManagerDidUpdateState(_ manager: CBCentralManager) {
+        MdocLog.info(.ble, "GATT central: Bluetooth state \(manager.state.logName)")
         switch manager.state {
         case .poweredOn:
             manager.scanForPeripherals(withServices: [profile.serviceUUID])
@@ -173,6 +177,7 @@ extension BleGattClientTransport: CBCentralManagerDelegate, CBPeripheralDelegate
 
     public func centralManager(_ manager: CBCentralManager, didDiscover p: CBPeripheral,
                                advertisementData: [String: Any], rssi RSSI: NSNumber) {
+        MdocLog.info(.ble, "GATT central: peripheral discovered (RSSI \(RSSI)) — connecting")
         manager.stopScan()
         peer = p
         p.delegate = self
@@ -180,6 +185,7 @@ extension BleGattClientTransport: CBCentralManagerDelegate, CBPeripheralDelegate
     }
 
     public func centralManager(_ manager: CBCentralManager, didConnect p: CBPeripheral) {
+        MdocLog.info(.ble, "GATT central: connected — discovering services")
         p.discoverServices([profile.serviceUUID])
     }
 
@@ -190,6 +196,7 @@ extension BleGattClientTransport: CBCentralManagerDelegate, CBPeripheralDelegate
     public func centralManager(_ manager: CBCentralManager, didDisconnectPeripheral p: CBPeripheral,
                                error: Error?) {
         guard p === peer else { return }
+        MdocLog.info(.ble, "GATT central: disconnected\(error.map { " (\($0.localizedDescription))" } ?? "")\(closing ? " while closing" : "")")
         buffer.discard()
         resumeDisconnectWaiters()
         resumeUnsubscribeWaiters()
@@ -249,8 +256,10 @@ extension BleGattClientTransport: CBCentralManagerDelegate, CBPeripheralDelegate
     public func peripheral(_ p: CBPeripheral, didUpdateNotificationStateFor c: CBCharacteristic,
                            error: Error?) {
         if closing, error != nil || !c.isNotifying { return unsubscribeConfirmed(c.uuid) }
+        if let error { MdocLog.warning(.ble, "GATT central: subscribe to \(c.uuid) failed: \(error.localizedDescription)") }
         guard c.uuid == profile.server2Client, c.isNotifying, !subscribed else { return }
         subscribed = true
+        MdocLog.info(.ble, "GATT central: subscribed — link ready (write length \(p.maximumWriteValueLength(for: .withoutResponse)))")
         if let stateChar {
             p.writeValue(Data([BleState.start.rawValue]), for: stateChar, type: .withoutResponse)
         }

@@ -111,6 +111,7 @@ import CoreNFC
 
     public func tagReaderSession(_ session: NFCTagReaderSession, didInvalidateWithError error: Error) {
         let ns = error as NSError
+        MdocLog.info(.nfc, "reader session invalidated (\(ns.domain) \(ns.code))")
         resume(.failure(NfcSessionInvalidation.error(domain: ns.domain, code: ns.code, description: "\(error)")),
                from: session)
     }
@@ -125,12 +126,17 @@ import CoreNFC
             default: kind = "unknown"
             }
             onTagSeen?("non-ISO7816 tag — \(kind)")
+            MdocLog.info(.nfc, "non-ISO7816 tag (\(kind)) — polling again")
             return session.restartPolling()
         }
         onTagSeen?("ISO7816 tag — AID selected by the system: "
                    + iso.initialSelectedAID)
+        MdocLog.info(.nfc, "ISO7816 tag detected — connecting")
         session.connect(to: tag) { [weak self] error in
-            guard error == nil else { return session.restartPolling() }
+            guard error == nil else {
+                MdocLog.warning(.nfc, "tag connect failed (\(error!.localizedDescription)) — polling again")
+                return session.restartPolling()
+            }
             self?.resume(.success(CoreNfcChannel(tag: iso, session: session)), from: session)
         }
     }
@@ -159,11 +165,14 @@ final class CoreNfcChannel: Iso7816Channel {
         }
         do {
             let (data, sw1, sw2) = try await tag.sendCommand(apdu: command)
-            return data + Data([sw1, sw2])
+            let response = data + Data([sw1, sw2])
+            MdocLog.debug(.nfc, "reader: \(Apdu.logSummary(command: apdu, response: response))")
+            return response
         } catch let error as MdocProximityError {
             throw error
         } catch {
             let ns = error as NSError
+            MdocLog.warning(.nfc, "reader: transceive failed (\(ns.domain) \(ns.code))")
             throw NfcTransceiveFailure.error(domain: ns.domain, code: ns.code, description: "\(error)")
         }
     }

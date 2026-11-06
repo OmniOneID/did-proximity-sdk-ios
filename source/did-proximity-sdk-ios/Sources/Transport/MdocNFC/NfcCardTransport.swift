@@ -51,9 +51,20 @@ import Foundation
 
     public func open(_ config: TransportConfig) async throws {
         guard config.role == .mdoc else { throw MdocProximityError.unsupportedTransmissionTechnology }
-        emulation.onDeactivated = { [weak self] in self?.peerGone() }
-        try await emulation.start { [weak self] apdu in
-            await self?.handle(apdu) ?? Data([0x6F, 0x00])
+        MdocLog.info(.nfc, "card emulation: starting")
+        emulation.onDeactivated = { [weak self] in
+            MdocLog.info(.nfc, "card emulation: reader deactivated the link")
+            self?.peerGone()
+        }
+        do {
+            try await emulation.start { [weak self] apdu in
+                let response = await self?.handle(apdu) ?? Data([0x6F, 0x00])
+                MdocLog.debug(.nfc, "card emulation: \(Apdu.logSummary(command: apdu, response: response))")
+                return response
+            }
+        } catch {
+            MdocLog.error(.nfc, "card emulation: start failed: \(error)")
+            throw error
         }
     }
 

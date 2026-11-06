@@ -67,3 +67,18 @@ final class ReassemblyBuffer {
 
     func discard() { buffer.removeAll() }
 }
+
+extension CBManagerState {
+    /// For log messages.
+    var logName: String {
+        switch self {
+        case .poweredOn: return "poweredOn"
+        case .poweredOff: return "poweredOff"
+        case .unauthorized: return "unauthorized"
+        case .unsupported: return "unsupported"
+        case .resetting: return "resetting"
+        case .unknown: return "unknown"
+        @unknown default: return "rawValue \(rawValue)"
+        }
+    }
+}

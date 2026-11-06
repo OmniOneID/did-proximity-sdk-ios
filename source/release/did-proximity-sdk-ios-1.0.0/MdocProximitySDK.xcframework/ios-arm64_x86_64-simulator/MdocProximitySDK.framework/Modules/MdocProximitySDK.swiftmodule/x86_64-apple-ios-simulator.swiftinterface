@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)
+// swift-compiler-version: Apple Swift version 6.4.2 effective-5.10 (swiftlang-6.4.2.1.9 clang-2100.4.1.1)
 // swift-module-flags: -target x86_64-apple-ios17.0-simulator -enable-objc-interop -enable-library-evolution -language-mode 5 -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name MdocProximitySDK
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4.2
 import CoreBluetooth
 import CoreNFC
 import CryptoKit
@@ -10,6 +10,7 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import os
 public protocol NfcCardEmulationProtocol : AnyObject {
   func start(handler: @escaping (Foundation::Data) async -> Foundation::Data) async throws
   var onDeactivated: (() -> Swift::Void)? { get set }
@@ -49,6 +50,63 @@ final public class MdocDeviceSession {
   final public func reject() async throws
   final public func terminate()
   @objc deinit
+}
+public enum MdocLogLevel : Swift::Int, Swift::Comparable, Swift::CustomStringConvertible {
+  case off
+  case error
+  case warning
+  case info
+  case debug
+  public static func < (lhs: MdocProximitySDK::MdocLogLevel, rhs: MdocProximitySDK::MdocLogLevel) -> Swift::Bool
+  public var description: Swift::String {
+    get
+  }
+  public init?(rawValue: Swift::Int)
+  public typealias RawValue = Swift::Int
+  public var rawValue: Swift::Int {
+    get
+  }
+}
+public enum MdocLogCategory : Swift::String, Swift::CaseIterable {
+  case session
+  case engagement
+  case transport
+  case ble
+  case nfc
+  case verify
+  public init?(rawValue: Swift::String)
+  public typealias AllCases = [MdocProximitySDK::MdocLogCategory]
+  public typealias RawValue = Swift::String
+  nonisolated public static var allCases: [MdocProximitySDK::MdocLogCategory] {
+    get
+  }
+  public var rawValue: Swift::String {
+    get
+  }
+}
+public struct MdocLogEntry {
+  public let date: Foundation::Date
+  public let level: MdocProximitySDK::MdocLogLevel
+  public let category: MdocProximitySDK::MdocLogCategory
+  public let message: Swift::String
+  public var formatted: Swift::String {
+    get
+  }
+}
+public enum MdocLog {
+  public static let subsystem: Swift::String
+  public static var level: MdocProximitySDK::MdocLogLevel {
+    get
+    set
+  }
+  public static var handler: ((MdocProximitySDK::MdocLogEntry) -> Swift::Void)? {
+    get
+    set
+  }
+  public static var systemLogEnabled: Swift::Bool {
+    get
+    set
+  }
 }
 public enum MdocProximityError : Swift::Error, Swift::Equatable {
   case bleUnavailable(reason: MdocProximitySDK::CapabilityReason)
@@ -400,6 +458,11 @@ public protocol TrustEvaluatorProtocol : AnyObject {
 extension MdocProximitySDK::MdocDeviceState : Swift::Equatable {}
 extension MdocProximitySDK::MdocDeviceState : Swift::Hashable {}
 extension MdocProximitySDK::MdocDeviceState : Swift::RawRepresentable {}
+extension MdocProximitySDK::MdocLogLevel : Swift::Hashable {}
+extension MdocProximitySDK::MdocLogLevel : Swift::RawRepresentable {}
+extension MdocProximitySDK::MdocLogCategory : Swift::Equatable {}
+extension MdocProximitySDK::MdocLogCategory : Swift::Hashable {}
+extension MdocProximitySDK::MdocLogCategory : Swift::RawRepresentable {}
 extension MdocProximitySDK::CapabilityReason : Swift::Hashable {}
 extension MdocProximitySDK::ElementProvenance : Swift::Hashable {}
 extension MdocProximitySDK::VerificationVerdict : Swift::Hashable {}

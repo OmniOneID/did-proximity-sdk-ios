@@ -88,6 +88,31 @@ mdoc 측 NFC engagement(iOS 카드 에뮬레이션)에 필요한 엔타이틀먼
 
 <br>
 
+## 로그
+SDK 로그는 **기본으로 꺼져 있습니다.** 문제가 생긴 뒤에는 그 시점을 다시 볼 수 없으므로, 앱에서 켜 두고 수집합니다.
+
+```swift
+MdocLog.level = .debug                         // .off (기본) / .error / .warning / .info / .debug
+MdocLog.handler = { entry in
+    logFile.append(entry.formatted)            // 2026-11-06T09:12:03.120Z [INFO] [session] reader state connecting -> connected
+}
+MdocLog.systemLogEnabled = true                // Console.app 에도 출력 (기본 true)
+```
+
+| 레벨 | 남는 내용 |
+|------|----------|
+| `.error` | 세션을 끝내는 실패 |
+| `.warning` | 복구 가능한 문제 — L2CAP 에서 GATT 로 폴백, 후보 전송 실패, Handover Request 무응답 |
+| `.info` | 세션 흐름 — 상태 전이, engagement, 선택된 전송, 메시지 송수신, 검증 결과 |
+| `.debug` | 링크 세부 — 후보 전송 이벤트, BLE 분할·MTU, NFC APDU 상태 워드 |
+
+- Console.app 에서는 subsystem `com.omnione.mdocproximity` 로 걸러 봅니다. 카테고리는 `session`, `engagement`, `transport`, `ble`, `nfc`, `verify` 입니다.
+- `handler` 는 SDK 내부 직렬 큐에서 로그가 생긴 순서대로 호출됩니다. handler 안에서 SDK 를 다시 호출해도 됩니다.
+- 키, SessionTranscript, 메시지 내용, 데이터 요소 값은 어느 레벨에서도 **남기지 않습니다.** 상태·종류·길이·상태 코드만 남깁니다.
+- `MdocLog` 는 `import MdocProximitySDK`, `import MdocDevice`, `import MdocReader` 어느 쪽으로도 쓸 수 있습니다.
+
+<br>
+
 ## API 규격서
 | 구분                | API 문서 링크                                                  |
 |--------------------|---------------------------------------------------------------|

@@ -157,7 +157,13 @@ public final class MdocReaderSession {
     private var _state: MdocReaderState = .idle
     public private(set) var state: MdocReaderState {
         get { locked { _state } }
-        set { locked { _state = newValue; notify { $0.readerSession(self, didChangeState: newValue) } } }
+        set {
+            locked {
+                MdocLog.info(.session, "reader state \(_state.rawValue) -> \(newValue.rawValue)")
+                _state = newValue
+                notify { $0.readerSession(self, didChangeState: newValue) }
+            }
+        }
     }
     private weak var _delegate: MdocReaderSessionDelegate?
     public var delegate: MdocReaderSessionDelegate? {
@@ -225,6 +231,7 @@ public final class MdocReaderSession {
     }
 
     public func connect(to engagement: EngagementPayload) async throws {
+        MdocLog.info(.engagement, "reader connect(technology: \(engagement.technology), offers: \(engagement.transmissions.map { "\($0)" }))")
         try locked {
             guard _state == .idle else {
                 throw MdocProximityError.invalidState(current: _state.rawValue, attempted: "connect")
@@ -238,6 +245,7 @@ public final class MdocReaderSession {
 
     @discardableResult
     public func connectViaNFC() async throws -> EngagementPayload {
+        MdocLog.info(.engagement, "reader connectViaNFC()")
         try locked {
             guard _state == .idle else {
                 throw MdocProximityError.invalidState(current: _state.rawValue, attempted: "connectViaNFC")
@@ -260,6 +268,7 @@ public final class MdocReaderSession {
                     })
                     break
                 } catch is Type4TagEngagementReader.NotAnMdocTag {
+                    MdocLog.info(.nfc, "tag is not an mdoc — waiting for another tag")
                     link.close(); channel = nil
                     try Task.checkCancellation()
                 }
@@ -274,7 +283,9 @@ public final class MdocReaderSession {
                 tag.engagementBytes,
                 technology: tag.handoverRequestBytes == nil ? .nfcStaticHandover : .nfcNegotiatedHandover,
                 handover: artifacts)
+            MdocLog.info(.engagement, "NFC engagement read (\(payload.technology), carriers: \(tag.handover.carriers.map { "\($0)" }))")
         } catch {
+            MdocLog.error(.engagement, "NFC engagement failed: \(error)")
             channel?.close()
             try locked {
                 guard _state != .terminated else { throw CancellationError() }
@@ -310,6 +321,7 @@ public final class MdocReaderSession {
             default: continue
             }
         }
+        MdocLog.info(.engagement, "Handover Request offers \(carriers.count) carrier(s) in priority \(configuration.transmissionPriority.map { "\($0)" })")
         return HandoverRequest.build(carriers: carriers, collisionResolution: UInt16.random(in: 0...UInt16.max))
     }
 
@@ -319,6 +331,7 @@ public final class MdocReaderSession {
         do {
             try ensureConnecting()
             let technology = try select(engagement)
+            MdocLog.info(.transport, "selected \(technology) for data retrieval")
             if technology != .nfc { channel?.close() }
             let transport: DataRetrievalTransportProtocol
             if let injected = locked({ self.transport }) {
@@ -350,6 +363,7 @@ public final class MdocReaderSession {
                       sharedSecret: zab, eReaderKeyBytes: ephemeral.keyBytes)
             }
         } catch {
+            MdocLog.error(.transport, "connection setup failed: \(error)")
             try locked {
                 // After terminate(), that path closes the link along with the termination notice. Follow-on link errors are cancellation too
                 guard _state != .terminated else { throw CancellationError() }
@@ -409,6 +423,7 @@ public final class MdocReaderSession {
                     }
                 }
             }
+            MdocLog.error(.transport, "no usable technology — offered \(engagement.transmissions.map { "\($0)" }), available \(factory.availableTechnologies.map { "\($0)" })")
             if let e = MdocCapabilities.current().mdocReader.blockingError(among: wanted) { throw e }
             throw MdocProximityError.unsupportedTransmissionTechnology
         }
@@ -463,6 +478,7 @@ public final class MdocReaderSession {
               case .unknown = document.issuerDataAuth.trust else { return document }
         let header = COSEHeaderSummary(kid: document.issuerKid, algorithm: document.issuerAlgorithm)
         let r = await trust.evaluate(header: header, purpose: .issuerDataAuthentication, at: now)
+        MdocLog.info(.verify, "resolveTrust \(document.docType): trust \(r.trust), source \(r.source)")
         // Re-check the signature with the newly resolved key (9.3.1 step 2). Documents whose key was not found the first time get their verdict here.
         var checked = false, valid = false
         if let key = r.publicKey, let auth = document.issuerAuth,
@@ -499,6 +515,7 @@ public final class MdocReaderSession {
             state = .awaitingResponse
             return (cipher, transcript, eReaderKeyBytes, transport)
         }
+        MdocLog.info(.session, "sending DeviceRequest (\(specs.count) doc request(s), \(bytes.count)B)")
         try await orFail { try await transport.send(try SessionCodec.encodeEstablishment(
             eReaderKeyBytes: eReaderKeyBytes, data: try cipher.encrypt(bytes))) }
 
@@ -510,6 +527,7 @@ public final class MdocReaderSession {
                 return m
             }
         } catch {
+            MdocLog.error(.session, "waiting for DeviceResponse failed: \(error)")
             try locked {
                 try ensureNotTerminated()
                 advance(.failed)
@@ -520,6 +538,7 @@ public final class MdocReaderSession {
 
         let envelope = try await orFail { try SessionCodec.decodeData(raw) }
         guard let payload = envelope.data else {
+            MdocLog.warning(.session, "mdoc ended the session without a response (status \(envelope.status.map { "\($0)" } ?? "none"))")
             locked {
                 ended = true
                 transport.close(.remote)
@@ -529,6 +548,7 @@ public final class MdocReaderSession {
             }
             throw MdocProximityError.terminatedByPeer(status: envelope.status ?? 20)
         }
+        MdocLog.info(.session, "DeviceResponse received (\(payload.count)B encrypted)")
         locked { ended = true }
         try? await transport.send(SessionCodec.encodeData(SessionData.terminate))
         transport.close(.normal)
@@ -538,6 +558,7 @@ public final class MdocReaderSession {
         }
         let response = try await orFail { try ResponseCodec.decode(try cipher.decrypt(payload)) }
         let verified = await verify(response, specs: specs, transcript: transcript, at: now)
+        MdocLog.info(.verify, "verified \(verified.documents.count) document(s), \(response.documentErrors.count) document error(s), status \(response.status)")
         // Never hand over results of a transaction the app has ended (8.3.2.1.2.1 — retain nothing beyond what the transaction needs)
         try locked {
             try ensureNotTerminated()
@@ -548,6 +569,7 @@ public final class MdocReaderSession {
 
     private func orFail<T>(_ body: () async throws -> T) async throws -> T {
         do { return try await body() } catch {
+            MdocLog.error(.session, "request failed: \(error)")
             try locked {
                 try ensureNotTerminated()
                 advance(.failed)
@@ -577,6 +599,7 @@ public final class MdocReaderSession {
 
     public func terminate() {
         lock.lock(); defer { lock.unlock() }
+        MdocLog.info(.session, "reader terminate() in state \(_state.rawValue)")
         switch _state {
         case .terminated: transport?.close(.normal)
         case .completed, .failed:
@@ -635,6 +658,7 @@ public final class MdocReaderSession {
 
     private func fail(_ e: MdocProximityError) {
         locked {
+            MdocLog.error(.session, "reader session failed: \(e)")
             state = .failed
             notify { $0.readerSession(self, didFailWith: e) }
         }
@@ -691,6 +715,7 @@ public final class MdocReaderSession {
                 if !missing.isEmpty { notReturned[ns] = missing.sorted() }
             }
 
+            MdocLog.info(.verify, "\(doc.docType): issuer signature \(check.signatureChecked ? (check.signatureValid ? "valid" : "INVALID") : (check.verificationSkipped ? "skipped" : "not checked")), trust \(resolution.trust), mdocAuth \(mdocAuth), not returned \(notReturned.values.map(\.count).reduce(0, +))")
             docs.append(VerifiedDocument(
                 docType: doc.docType,
                 issuerSignedElements: issuerElements, deviceSignedElements: deviceElements,

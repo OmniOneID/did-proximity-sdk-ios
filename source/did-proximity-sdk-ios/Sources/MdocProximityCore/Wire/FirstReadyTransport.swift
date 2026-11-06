@@ -44,12 +44,14 @@ import Foundation
 
     public func open(_ config: TransportConfig) async throws {
         remember(config)
+        MdocLog.info(.transport, "opening candidates [\(labels.joined(separator: ", "))] as \(config.role)")
         for candidate in candidates { pump(candidate) }
         var failures: [Error] = []
         for candidate in candidates {
             do { try await candidate.open(config) } catch {
                 failures.append(error)
                 recordOpenFailure(error, from: candidate)
+                MdocLog.warning(.transport, "candidate \(label(of: candidate)) open failed: \(error)")
             }
         }
         if failures.count == candidates.count, let first = failures.first {
@@ -73,7 +75,11 @@ import Foundation
     }
 
     public func add(_ label: String, _ candidate: DataRetrievalTransportProtocol) async throws {
-        guard let config = register(label, candidate) else { candidate.close(.normal); return }
+        guard let config = register(label, candidate) else {
+            MdocLog.debug(.transport, "candidate \(label) dropped: another candidate already chosen")
+            candidate.close(.normal); return
+        }
+        MdocLog.debug(.transport, "candidate \(label) added")
         pump(candidate)
         if let config { try await candidate.open(config) }
     }
@@ -107,6 +113,11 @@ import Foundation
         emit.finish()
     }
 
+    private func label(of candidate: DataRetrievalTransportProtocol) -> String {
+        lock.lock(); defer { lock.unlock() }
+        return candidates.firstIndex(where: { $0 === candidate }).map { labels[$0] } ?? "?"
+    }
+
     private var current: DataRetrievalTransportProtocol? {
         lock.lock(); defer { lock.unlock() }
         return chosen
@@ -117,6 +128,7 @@ import Foundation
         let label = candidates.firstIndex(where: { $0 === source }).map { labels[$0] }
         lock.unlock()
         if let label { onCandidateEvent?(label, event) }
+        MdocLog.debug(.transport, "candidate \(label ?? "?"): \(event.logDescription)")
         lock.lock()
         if let chosen {
             let isChosen = chosen === source
@@ -128,11 +140,13 @@ import Foundation
         case .ready, .message:
             chosen = source
             lock.unlock()
+            MdocLog.info(.transport, "selected candidate \(label ?? "?") of \(candidates.count)")
             for candidate in candidates where candidate !== source { candidate.close(.normal) }
             emit.yield(event)
         case .failed(let error):
             if failed[ObjectIdentifier(source)] == nil { failed[ObjectIdentifier(source)] = error }
             lock.unlock()
+            MdocLog.warning(.transport, "candidate \(label ?? "?") failed: \(error)")
             if let first = firstErrorIfAllFailed() { emit.yield(.failed(first)) }
         default:
             lock.unlock()

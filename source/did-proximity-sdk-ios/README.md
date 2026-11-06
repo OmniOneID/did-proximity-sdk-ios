@@ -87,6 +87,31 @@ NFC engagement on the mdoc side (iOS card emulation) needs an entitlement this S
 
 <br>
 
+## Logging
+The SDK log is **off by default**. Turn it on in the app to capture what led up to a problem — once a session has failed, the moment is gone.
+
+```swift
+MdocLog.level = .debug                         // .off (default) / .error / .warning / .info / .debug
+MdocLog.handler = { entry in
+    logFile.append(entry.formatted)            // 2026-11-06T09:12:03.120Z [INFO] [session] reader state connecting -> connected
+}
+MdocLog.systemLogEnabled = true                // also write to Console.app (default true)
+```
+
+| Level | What is logged |
+|-------|----------------|
+| `.error` | Failures that end a session |
+| `.warning` | Recoverable problems — L2CAP falling back to GATT, a candidate transport lost, a Handover Request refused |
+| `.info` | Session lifecycle — state changes, engagement, the transport chosen, messages sent and received, verification results |
+| `.debug` | Link-level detail — candidate transport events, BLE parts and MTU, NFC APDU status words |
+
+- In Console.app, filter by subsystem `com.omnione.mdocproximity`. Categories are `session`, `engagement`, `transport`, `ble`, `nfc`, `verify`.
+- `handler` runs on an SDK-internal serial queue, in the order the entries were made. It may call back into the SDK.
+- Keys, the SessionTranscript, message contents and data element values are **never logged** at any level — only states, kinds, lengths and status codes.
+- `MdocLog` is available from `import MdocProximitySDK`, `import MdocDevice` and `import MdocReader`.
+
+<br>
+
 ## API Specification
 | Category           | API Document Link                                             |
 |--------------------|---------------------------------------------------------------|

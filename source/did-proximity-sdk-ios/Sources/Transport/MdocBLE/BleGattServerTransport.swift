@@ -61,6 +61,7 @@ import CoreBluetooth
     }
 
     public func open(_ config: TransportConfig) async throws {
+        MdocLog.info(.ble, "GATT peripheral: opening (service \(profile.serviceUUID), L2CAP \(publishesL2cap ? "on" : "off"))")
         manager = CBPeripheralManager(delegate: self, queue: nil,
                                       options: [CBPeripheralManagerOptionShowPowerAlertKey: false])
     }
@@ -74,6 +75,7 @@ import CoreBluetooth
         guard subscribed else { pending.append(message); return }
         let mtu = subscribedCentral?.maximumUpdateValueLength ?? 20
         let parts = try BleFraming.split(message, mtu: mtu + 3)
+        MdocLog.debug(.ble, "GATT peripheral: sending \(message.count)B in \(parts.count) part(s), update length \(mtu)")
         var sent = 0
         for part in parts {
             guard subscribed, let s2c, let manager else { throw MdocProximityError.peerDisconnected }
@@ -164,6 +166,7 @@ import CoreBluetooth
 extension BleGattServerTransport: CBPeripheralManagerDelegate {
 
     public func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+        MdocLog.info(.ble, "GATT peripheral: Bluetooth state \(peripheral.state.logName)")
         switch peripheral.state {
         case .poweredOn:
             if publishesL2cap { peripheral.publishL2CAPChannel(withEncryption: false) }
@@ -206,15 +209,18 @@ extension BleGattServerTransport: CBPeripheralManagerDelegate {
     public func peripheralManager(_ peripheral: CBPeripheralManager,
                                   didAdd service: CBService, error: Error?) {
         guard error == nil else {
+            MdocLog.error(.ble, "GATT peripheral: add service failed: \(error!.localizedDescription)")
             emit.yield(.failed(.connectionFailed(detail: "add service")))
             return
         }
+        MdocLog.info(.ble, "GATT peripheral: service added — advertising")
         peripheral.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [profile.serviceUUID]])
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral,
                                   didSubscribeTo characteristic: CBCharacteristic) {
         guard characteristic.uuid == profile.server2Client else { return }
+        MdocLog.info(.ble, "GATT peripheral: central subscribed — link ready (update length \(central.maximumUpdateValueLength))")
         subscribedCentral = central
         emit.yield(.ready)
         let queued = pending; pending.removeAll()
@@ -225,6 +231,7 @@ extension BleGattServerTransport: CBPeripheralManagerDelegate {
                                   didUnsubscribeFrom characteristic: CBCharacteristic) {
         guard characteristic.uuid == profile.server2Client,
               central.identifier == subscribedCentral?.identifier else { return }
+        MdocLog.info(.ble, "GATT peripheral: central unsubscribed\(closing ? " while closing" : "")")
         subscribedCentral = nil
         resumeReadyWaiters()
         resumeUnsubscribeWaiters()
@@ -243,6 +250,7 @@ extension BleGattServerTransport: CBPeripheralManagerDelegate {
                 do {
                     if let complete = try buffer.append(value) {
                         if pipe != nil {
+                            MdocLog.warning(.ble, "GATT peripheral: peer sent over GATT — closing L2CAP")
                             pipe?.close(); pipe = nil
                             emit.yield(.downgradedToGatt(reason: "peer used GATT"))
                         }
@@ -263,12 +271,21 @@ extension BleGattServerTransport: CBPeripheralManagerDelegate {
     public func peripheralManager(_ peripheral: CBPeripheralManager,
                                   didPublishL2CAPChannel PSM: CBL2CAPPSM, error: Error?) {
         psm = error == nil ? PSM : nil
+        if let error {
+            MdocLog.warning(.ble, "GATT peripheral: L2CAP publish failed (\(error.localizedDescription)) — GATT only")
+        } else {
+            MdocLog.info(.ble, "GATT peripheral: L2CAP published on PSM \(PSM)")
+        }
         registerService(peripheral)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager,
                                   didOpen channel: CBL2CAPChannel?, error: Error?) {
-        guard let channel, error == nil else { return }
+        guard let channel, error == nil else {
+            MdocLog.warning(.ble, "GATT peripheral: L2CAP channel open failed\(error.map { ": \($0.localizedDescription)" } ?? "")")
+            return
+        }
+        MdocLog.info(.ble, "GATT peripheral: L2CAP channel opened — link ready")
         let pipe = L2capChannelPipe(channel: channel)
         pipe.onMessage = { [weak self] in self?.emit.yield(.message($0)) }
         pipe.onError = { [weak self] error in

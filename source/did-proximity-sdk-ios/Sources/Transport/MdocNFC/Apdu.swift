@@ -76,6 +76,16 @@ import Foundation
         guard r.count >= 2 else { return 0 }
         return UInt16(r[r.count - 2]) << 8 | UInt16(r[r.count - 1])
     }
+
+    /// One APDU exchange for the log — the command header and lengths only, never the data fields.
+    /// `INS A4 P1P2 040C cmd 14B → SW 9000 resp 0B`
+    public static func logSummary(command: Data, response: Data) -> String {
+        let bytes = [UInt8](command)
+        let header = bytes.count >= 4
+            ? String(format: "INS %02X P1P2 %02X%02X", bytes[1], bytes[2], bytes[3])
+            : "short APDU"
+        return "\(header) cmd \(command.count)B → SW \(String(format: "%04X", statusWord(response))) resp \(max(response.count - 2, 0))B"
+    }
 }
 
 @_spi(MdocInternal) public struct CapabilityContainer {

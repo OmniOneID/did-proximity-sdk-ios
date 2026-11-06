@@ -52,6 +52,7 @@ import Foundation
         if selectsApplication {
             let response = try await channel.transceive(Apdu.selectByName(NfcAid.mdocDataRetrieval))
             guard Apdu.statusWord(response) == 0x9000 else {
+                MdocLog.error(.nfc, "reader: SELECT mdoc AID refused (SW \(String(format: "%04X", Apdu.statusWord(response))))")
                 throw MdocProximityError.connectionFailed(
                     detail: "SELECT mdoc AID: SW \(String(Apdu.statusWord(response), radix: 16))")
             }

@@ -51,7 +51,13 @@ public final class MdocDeviceSession {
     private var _state: MdocDeviceState = .idle
     public private(set) var state: MdocDeviceState {
         get { locked { _state } }
-        set { locked { _state = newValue; notify { $0.mdocSession(self, didChangeState: newValue) } } }
+        set {
+            locked {
+                MdocLog.info(.session, "mdoc state \(_state.rawValue) -> \(newValue.rawValue)")
+                _state = newValue
+                notify { $0.mdocSession(self, didChangeState: newValue) }
+            }
+        }
     }
     private weak var _delegate: MdocDeviceSessionDelegate?
     public var delegate: MdocDeviceSessionDelegate? {
@@ -122,11 +128,13 @@ public final class MdocDeviceSession {
 
     @discardableResult
     public func start(technology: EngagementTechnology) async throws -> EngagementPayload {
+        MdocLog.info(.engagement, "mdoc start(technology: \(technology))")
         let injected: DataRetrievalTransportProtocol? = try locked {
             guard _state == .idle else {
                 throw MdocProximityError.invalidState(current: _state.rawValue, attempted: "start")
             }
             if technology.isNFC, nfcCardEmulation == nil {
+                MdocLog.error(.engagement, "NFC engagement requested but no nfcCardEmulation was injected")
                 throw MdocProximityError.nfcUnavailable(reason: .vendorPolicy)
             }
             claim = try SessionRegistry.claim("MdocDeviceSession")
@@ -143,7 +151,9 @@ public final class MdocDeviceSession {
             let centralUUID = withUnsafeBytes(of: UUID().uuid) { Data($0) }
             var advertised = factory.availableTechnologies.filter(configuration.bleAdvertiseMode.allows)
             if nfcCardEmulation != nil { advertised.append(.nfc) }
+            MdocLog.info(.engagement, "advertising \(advertised.map { "\($0)" })")
             guard !advertised.isEmpty else {
+                MdocLog.error(.engagement, "no transmission technology available to advertise")
                 if let e = MdocCapabilities.current().mdoc.blockingError(among: [.ble]) { throw e }
                 throw MdocProximityError.unsupportedTransmissionTechnology
             }
@@ -179,6 +189,7 @@ public final class MdocDeviceSession {
             try await openAndEngage(transport)
             return payload
         } catch {
+            MdocLog.error(.engagement, "start failed: \(error)")
             settleStart()
             throw error
         }
@@ -240,6 +251,7 @@ public final class MdocDeviceSession {
             try await openAndEngage(transport)
             return payload
         } catch {
+            MdocLog.error(.engagement, "start failed: \(error)")
             settleStart()
             throw error
         }
@@ -280,6 +292,7 @@ public final class MdocDeviceSession {
             try await openAndEngage(transport)
             return payload
         } catch {
+            MdocLog.error(.engagement, "start failed: \(error)")
             settleStart()
             throw error
         }
@@ -287,11 +300,18 @@ public final class MdocDeviceSession {
 
     private func answerHandoverRequest(_ request: Data, deviceEngagement: Data, keys: EphemeralKeyPair,
                                        nfc: NfcCarrierConfiguration, fanout: FirstReadyTransport) -> Data? {
-        guard let records = try? Ndef.parse(request) else { return nil }
+        guard let records = try? Ndef.parse(request) else {
+            MdocLog.warning(.engagement, "Handover Request is not valid NDEF (\(request.count)B) — no answer")
+            return nil
+        }
         let offer = HandoverRequest.parse(records)
         var mine = factory.availableTechnologies.filter(configuration.bleAdvertiseMode.allows)
         mine.append(.nfc)
-        guard let chosen = offer.carriers.first(where: { mine.contains($0) }) else { return nil }
+        MdocLog.info(.engagement, "Handover Request offers \(offer.carriers.map { "\($0)" }), mdoc supports \(mine.map { "\($0)" })")
+        guard let chosen = offer.carriers.first(where: { mine.contains($0) }) else {
+            MdocLog.warning(.engagement, "no common carrier in Handover Request — no answer")
+            return nil
+        }
 
         let ident = KeyDerivation.bleIdent(eDeviceKeyBytes: keys.keyBytes.raw)
         let carrier: HandoverSelect.Carrier
@@ -305,11 +325,15 @@ public final class MdocDeviceSession {
             ble = TransportParameters(technology: .ble(.peripheralServer), role: .mdoc,
                                       l2cap: configuration.l2capUpgrade, serviceUUID: uuid, ident: ident)
         case .ble(.centralClient):
-            guard let readerUUID = offer.readerServiceUUID else { return nil }
+            guard let readerUUID = offer.readerServiceUUID else {
+                MdocLog.warning(.engagement, "BLE central offered without a reader service UUID — no answer")
+                return nil
+            }
             carrier = .ble(role: 0x01, serviceUUID: nil)
             ble = TransportParameters(technology: .ble(.centralClient), role: .mdoc,
                                       l2cap: configuration.l2capUpgrade, serviceUUID: readerUUID, ident: ident)
         case .wifiAware:
+            MdocLog.warning(.engagement, "Wi-Fi Aware is not supported — no answer")
             return nil
         }
         let select = HandoverSelect.build(deviceEngagement: deviceEngagement, carrier: carrier)
@@ -318,13 +342,20 @@ public final class MdocDeviceSession {
         artifacts.nfcMaxCommandDataLength = nfc.maxCommandDataLength
         artifacts.nfcMaxResponseDataLength = nfc.maxResponseDataLength
         guard let payload = try? EngagementPayload.make(deviceEngagement, technology: .nfcNegotiatedHandover,
-                                                        handover: artifacts) else { return nil }
+                                                        handover: artifacts) else {
+            MdocLog.warning(.engagement, "could not build the engagement for the Handover Select — no answer")
+            return nil
+        }
         var bleTransport: DataRetrievalTransportProtocol?
         if let ble {
-            guard let made = try? factory.makeTransport(ble) else { return nil }
+            guard let made = try? factory.makeTransport(ble) else {
+                MdocLog.warning(.engagement, "could not create the \(chosen) transport — no answer")
+                return nil
+            }
             bleTransport = made
         }
         locked { engagement = payload }
+        MdocLog.info(.engagement, "Handover Select answers with \(chosen)")
         if let bleTransport {
             let label = "\(chosen)"
             Task { try? await fanout.add(label, bleTransport) }
@@ -369,6 +400,7 @@ public final class MdocDeviceSession {
                 return true
             }
             guard expired else { return }
+            MdocLog.warning(.session, "app did not respond within \(self.configuration.responseTimeout)s")
             try? await sendTermination()
             fail(.responseTimeout)
         }
@@ -379,7 +411,11 @@ public final class MdocDeviceSession {
             try? await Task.sleep(nanoseconds: UInt64((self?.configuration.engagementTimeout ?? 90)
                                                       * 1_000_000_000))
             guard let self, !Task.isCancelled else { return }
-            self.locked { if self._state == .engaging { self.fail(.engagementTimeout) } }
+            self.locked {
+                guard self._state == .engaging else { return }
+                MdocLog.warning(.session, "engagement timed out after \(self.configuration.engagementTimeout)s")
+                self.fail(.engagementTimeout)
+            }
         }
     }
 
@@ -432,6 +468,7 @@ public final class MdocDeviceSession {
         let t = engagement.sessionTranscript(eReaderKeyBytes: eReaderKeyBytes)
         transcript = t
         cipher = SessionCipher(role: .mdoc, sharedSecret: zab, transcript: t)
+        MdocLog.info(.session, "session keys derived from SessionEstablishment")
         state = .sessionEstablished
     }
 
@@ -442,6 +479,7 @@ public final class MdocDeviceSession {
     private func fail(_ e: MdocProximityError) {
         locked {
             guard !isTerminal else { return }
+            MdocLog.error(.session, "mdoc session failed: \(e)")
             state = .failed
             notify { $0.mdocSession(self, didFailWith: e) }
         }
@@ -452,6 +490,7 @@ public final class MdocDeviceSession {
         try locked {
             if let envelope = try? SessionCodec.decodeData(encrypted),
                envelope.data == nil, let status = envelope.status {
+                MdocLog.info(.session, "reader ended the session (status \(status))")
                 ended = true
                 deadline?.cancel()
                 transport?.close(.remote)
@@ -461,6 +500,7 @@ public final class MdocDeviceSession {
                 return
             }
             guard _state == .engaging || _state == .sessionEstablished else {
+                MdocLog.warning(.session, "unexpected message (\(encrypted.count)B) in state \(_state.rawValue) — terminating")
                 terminate()
                 throw MdocProximityError.invalidState(current: _state.rawValue, attempted: "receive")
             }
@@ -479,6 +519,7 @@ public final class MdocDeviceSession {
                 throw MdocProximityError.invalidState(current: _state.rawValue, attempted: "receive")
             }
             let plain = try cipher.decrypt(payload)
+            MdocLog.info(.session, "DeviceRequest received (\(plain.count)B)")
             state = .awaitingResponse
             armResponseDeadline()
             let raw = transcript.raw
@@ -500,9 +541,11 @@ public final class MdocDeviceSession {
             guard let transport else {
                 throw MdocProximityError.invalidState(current: state.rawValue, attempted: "respond")
             }
+            MdocLog.info(.session, "sending DeviceResponse (\(deviceResponse.count)B)")
             try await transport.send(SessionCodec.encodeData(
                 SessionData(data: try cipher.encrypt(deviceResponse))))
         } catch {
+            MdocLog.error(.session, "sending DeviceResponse failed: \(error)")
             try locked {
                 guard _state != .terminated else { throw CancellationError() }
                 if _state == .responding { state = .failed }
@@ -525,7 +568,9 @@ public final class MdocDeviceSession {
             responded = true
             deadline?.cancel()
         }
+        MdocLog.info(.session, "app rejected the request — sending termination")
         do { try await sendTermination() } catch {
+            MdocLog.error(.session, "sending termination failed: \(error)")
             locked { if _state == .awaitingResponse { state = .failed } }
             throw error
         }
@@ -537,6 +582,7 @@ public final class MdocDeviceSession {
 
     public func terminate() {
         locked {
+            MdocLog.info(.session, "mdoc terminate() in state \(_state.rawValue)")
             let transport = self.transport
             switch _state {
             case .terminated:

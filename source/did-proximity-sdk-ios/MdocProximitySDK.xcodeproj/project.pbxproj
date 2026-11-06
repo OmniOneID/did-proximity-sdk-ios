@@ -64,6 +64,7 @@
 		BFF2BDCC474CC106F1CCA49D /* RequestCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B2B768F857F469AB62754 /* RequestCodec.swift */; };
 		C0697222CF8734AE5E490B62 /* TrustEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D06C698830A1789E911731 /* TrustEvaluator.swift */; };
 		C0946AC051D873FA323BC8E0 /* CardSessionEmulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1EACEA2D0B9D8626E7B1617 /* CardSessionEmulation.swift */; };
+		A1B2C3D4A83851C41BA92C8E /* MdocLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F6A7B8602E3D8749B19282 /* MdocLog.swift */; };
 		C990F3F86510A1975267C9AE /* MdocProximityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */; };
 		CF3C2BFA8A67BE826D315C61 /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6FED82D20DE70565A1B126 /* Presets.swift */; };
 		D2CEEEB593A0DD01634AEFF8 /* QRViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C693A95316F966BE3C6F0A /* QRViews.swift */; };
@@ -140,6 +141,7 @@
 		71E3D591952AF821F304A2A4 /* DeviceTransportFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTransportFactory.swift; sourceTree = "<group>"; };
 		7282D8ED8DCEA1E38C1DC114 /* DigestChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestChecker.swift; sourceTree = "<group>"; };
 		7541610176D736CD4018488A /* CborValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CborValue.swift; sourceTree = "<group>"; };
+		E5F6A7B8602E3D8749B19282 /* MdocLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocLog.swift; sourceTree = "<group>"; };
 		756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocProximityError.swift; sourceTree = "<group>"; };
 		7D6FED82D20DE70565A1B126 /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
 		7F9AB978CD8F7F6E8CE45B71 /* EngagementPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementPayload.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 		BB6788A266BF59FD58E2B3B5 /* MdocProximityCore */ = {
 			isa = PBXGroup;
 			children = (
+				E5F6A7B8602E3D8749B19282 /* MdocLog.swift */,
 				756CC98816BD78F27F2DD8AC /* MdocProximityError.swift */,
 				1FE809491040E59964F8CA89 /* Cbor */,
 				641B942D238537F045972917 /* Codec */,
@@ -554,6 +557,7 @@
 				E7CBDEECDD2ACF5CD1D7B98D /* Cose.swift in Sources */,
 				02C5E790326A95DDECA271DF /* CoseKey.swift in Sources */,
 				98DB7B137C0B42E4B6B124EE /* DeviceAuthentication.swift in Sources */,
+				A1B2C3D4A83851C41BA92C8E /* MdocLog.swift in Sources */,
 				C990F3F86510A1975267C9AE /* MdocProximityError.swift in Sources */,
 				18177E1B0AD850CE688BA64D /* Aliases.swift in Sources */,
 				A88A9942DA0318516F7EAD79 /* Configuration.swift in Sources */,

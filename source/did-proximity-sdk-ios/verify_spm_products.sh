@@ -55,6 +55,9 @@ func readerApp(trust: TrustEvaluatorProtocol) async throws {
         _ = doc.issuerSignedElements[MdocDocTypes.mDLNameSpace]?["family_name"]?.asText  // Core
     }
     _ = MdocCapabilities.current().mdocReader.ble          // Core
+
+    MdocLog.level = .debug                                 // Core — the app turns the SDK log on
+    MdocLog.handler = { (entry: MdocLogEntry) in _ = (entry.level, entry.category, entry.formatted) }
 }
 
 // Trust lives in MdocTrust — without the re-export this breaks here
@@ -79,6 +82,10 @@ func deviceApp(delegate: MdocDeviceSessionDelegate) async throws {
     try await session.respond(deviceResponse: Data())
     session.terminate()
     _ = MdocCapabilities.current().mdoc.ble                         // Core
+
+    MdocLog.level = .info                                           // Core — the app turns the SDK log on
+    MdocLog.systemLogEnabled = false
+    MdocLog.handler = { entry in print(entry.formatted) }
 }
 SWIFT
 

@@ -43,6 +43,12 @@ func app(trust: TrustEvaluatorProtocol) async throws {
     let mdoc = MdocDeviceSession(configuration: configuration)
     _ = try await mdoc.start(technology: .qr)
     mdoc.terminate()
+
+    // The SDK log the app turns on to capture what led up to a problem
+    MdocLog.level = .debug
+    MdocLog.systemLogEnabled = true
+    MdocLog.handler = { (entry: MdocLogEntry) in _ = (entry.date, entry.level, entry.category, entry.message, entry.formatted) }
+    _ = MdocLogCategory.allCases
 }
 SWIFT
 
